@@ -1,0 +1,52 @@
+\documentclass[12pt]{exam}
+
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{graphicx,wrapfig}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{bidihl}
+\usepackage{tikz-uml}
+%\usepackage{multicol}
+
+\usepackage[margin=20mm]{geometry}
+\usepackage{xepersian}
+\settextfont{B Nazanin}
+
+\newcommand{\class}{الگوها در مهندسی نرم افزار}
+
+\singlespacing
+\parindent 0ex
+
+\lstset{
+keywordstyle=\textbf,
+identifierstyle=, 
+stringstyle=\ttfamily,
+commentstyle=\color{LimeGreen}, 
+stringstyle=\ttfamily,
+numberstyle=\footnotesize,
+showstringspaces=false} 
+\begin{document}
+
+\include{info}
+\pagestyle{empty}
+\include{cover-page}
+\tableofcontents
+% These commands set up the running header on the top of the exam pages
+\pagestyle{head}
+\firstpageheader{}{}{}
+\runningheader{صفحه \thepage\ از \numpages}{}{\class}
+\runningheadrule
+
+
+\include{survey/introduction}
+\include{survey/chapter2/chapter2}
+\include{bib/bib}
+% \include{part2.tex}
+
+
+
+
+\end{document}
