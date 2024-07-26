@@ -1,4 +1,5 @@
 \subsection{الگوی \lr{Hardware Proxy}}
+\label{HWProxySec}
 \begin{RTL}
 این الگو با ایجاد یک رابط روی یک جزء سخت‌افزاری، یک دسترسی
 مستقل از پیچیدگی‌های اتصال به سخت‌افزار برای کلاینت ایجاد می‌کند.
@@ -14,7 +15,7 @@
 \centering
 \begin{tikzpicture}
 \lr{
-  \umlclass{Proxy}{
+  \umlclass{HardwareProxy}{
     device\_address
   }{
     initialize()\\
@@ -23,14 +24,14 @@
     access()\\
     mutate()
   }
-  \umlclass[y=-6]{Hardware}{
+  \umlclass[y=-6]{HardwareDevice}{
     \lr{}
   }{}
-  \umlclass[x=5]{Client}{
+  \umlclass[x=5]{ProxyClient}{
     \lr{}
   }{}
-\umlassoc[mult1=1, mult2=1]{Proxy}{Hardware}
-\umluniassoc[mult1=1..*, mult2=1]{Client}{Proxy}
+\umlassoc[mult1=1, mult2=1]{HardwareProxy}{HardwareDevice}
+\umluniassoc[mult1=1..*, mult2=1]{ProxyClient}{HardwareProxy}
 }
 \end{tikzpicture}
 \caption{دیاگرام کلاس \lr{Hardware Proxy}}
