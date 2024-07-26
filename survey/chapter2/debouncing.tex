@@ -1,0 +1,54 @@
+\subsection{الگوی \lr{Debouncing}}
+\label{HWDebouncingSec}
+\begin{RTL}
+در سخت‌افزار بسیاری از ورودی‌ها به صورت دکمه‌ها و سوییچ‌هایی هستند که بر اثر ایجاد
+اتصال دو فلز با یکدیگر، باعث فعال‌شدن یک پایه شده و آغازگر یک عملیات در نرم‌افزار
+نهفته هستند. اتصال این دو فلز با یکدیگر دارای تعدادی حالت میانی است. به این صورت
+که اتصال با کمی لرزش همراه بوده و اتصال برای چند میلی‌ثانیه چند بار قطع و وصل
+می‌شود. این قطع و وصل شدن، باعث می‌شود که نتوانیم حالت فعلی سخت‌افزار را به درستی
+در نرم‌افزار ضبط کنیم.
+\end{RTL}
+\begin{RTL}
+این الگو به ما کمک می‌کند که با صبرکردن برای یک مدت کوتاه، مقدار ورودی را
+زمانی که پایدار شده‌است بخوانیم. با این کار دغدغه معتبر بودن مقدار خوانده‌شده را
+در کلاینت نخواهیم داشت. دیاگرام کلاسی این الگو در شکل \ref{HWDebouncingClassDiag}
+نمایش داده شده‌است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlclass{BouncingDevice}{
+        \lr{deviceState}
+    }{
+        \lr{sendEvent()} \\
+        \lr{getState()}
+    }
+    \umlclass[x=7]{Debouncer}{
+        \lr{oldState}
+    }{
+        \lr{eventReceive()}
+    }
+    \umlclass[x=7, y=-4]{ApplicationClient}{}{
+        \lr{deviceEventReceive(dState)}
+    }
+    \umlclass[x=7, y=4]{DebouncingTimer}{}{
+        \lr{delay(delayTime)}
+    }
+\umlassoc[mult1=1, mult2=1]{Debouncer}{BouncingDevice}
+\umluniassoc[attr2=1|itsApplicationClient]{Debouncer}{ApplicationClient}
+\umluniassoc[attr2=itsDebouncingTimer|1]{Debouncer}{DebouncingTimer}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Debouncing}}
+\label{HWDebouncingClassDiag}
+\end{figure}
+\begin{RTL}
+در این ساختار، \lr{BouncingDevice} همان سخت‌افزار مورد بررسی است.
+تابع \lr{sendEvent} می‌تواند یک نوع اینتراپت سخت‌افزاری باشد که نرم‌افزار را
+از تغییر در سخت‌افزار باخبر می‌سازد و \lr{getState} می‌تواند یک عملیات
+خواندن از حافظه باشد.
+کلاس \lr{Debouncer} وظیفه ارائه حالت پایدار سخت‌افزار به کلاینت را دارد.
+این کار با استفاده از یک کلاس زمان‌سنج انجام می‌شود که با ایجاد یک تاخیر نرم‌افزاری
+تا پایدارشدن شرایط خروجی سخت‌افزار، خواندن حالت سخت‌افزار را به تعویق می‌اندازد.
+\end{RTL}
