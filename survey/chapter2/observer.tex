@@ -1,0 +1,54 @@
+\subsection{الگوی \lr{Observer}}
+\label{HWObserverSec}
+\begin{RTL}
+یکی از پرکاربردترین الگوها در حوزه سیستم‌های نهفته، الگوی \lr{Observer} است.
+این الگو به شیء‌های برنامه این اجازه را می‌دهد که به یک شی‌ء دیگر برای دریافت
+اطلاعات گوش دهند. این به این معنی است که اگر یک کلاینت به دنبال دریافت
+داده از یک سرور است، به جای این که هر دفعه درخواست دریافت داده‌ها را برای
+سرور بفرستد، برای آن سرور درخواست عضویت فرستاده و سرور هرگاه که داده‌های جدید
+در دسترس بودند، آن‌ها را برای کلاینت‌های عضوشده بفرستد. یکی از مهم‌ترین کاربردهای
+این الگو در دریافت داده‌ها از سنسورها است.
+یکی از قابلیت‌های خوب این الگو این است که کلاینت‌ها می‌توانند در زمان اجرای برنامه
+عضویت خود را قطع یا ایجاد کنند. در شکل \ref{HWObserverClassDiag}
+دیاگرام کلاس این الگو را می‌بینیم.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlinterface{AbstractClient}{}{
+        \lr{accept(d: Datum)}
+    }
+    \umlclass[y=-3]{ConcreteClient}{}{}
+    \umlclass[x=4, y=3]{Datum}{}{}
+    \umlinterface[x=8]{AbstractSubject}{}{
+        \lr{subscribe(a: acceptPtr)} \\
+        \lr{unsubscribe(a: acceptPtr)} \\
+        \lr{notify()}
+    }
+    \umlclass[x=8, y=-3]{ConcreteSubject}{}{}
+    \umlclass[x=13, y=-3]{NotificationHandle}{
+        \lr{aPtr: acceptPtr}
+    }{}
+\umluniassoc[geometry=|-, attr2=1|itsDatum, pos2=1.9, align2=left]{AbstractSubject}{Datum}
+\umluniassoc[geometry=|-, attr2=1|itsDatum, pos2=1.9, align2=right]{AbstractClient}{Datum}
+\umluniassoc[attr2=1|itsAbstractSubject, pos2=1, align2=right]{AbstractClient}{AbstractSubject}
+\umlimpl{ConcreteSubject}{AbstractSubject}
+\umlimpl{ConcreteClient}{AbstractClient}
+\umlunicompo[geometry=-|, attr2=MAX\_SUBS|, pos2=1.9]{AbstractSubject}{NotificationHandle}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Observer}}
+\label{HWObserverClassDiag}
+\end{figure}
+\begin{RTL}
+در این ساختار کلاینت‌ها با فرستادن یک اشاره‌گر به کلاس سابجکت، درخواست عضویت برای 
+سرویس می‌فرستند. کلاس سابجکت نیز با ذخیره‌کردن اشاره‌گرهای مختلف از طرف کلاینت‌ها
+زمانی که داده جدید آماده می‌شود، با فراخوانی تابع \lr{notify}، تابع \lr{accept}
+که اشاره‌گرهایش را در \lr{NotificationHandle} قرار داده، با پاس دادن
+ورودی به فرمت \lr{Datum} صدا می‌زند. اینگونه این داده برای تمامی کلاینت‌های
+عضو سرویس فرستاده می‌شود.
+کلاینت‌ها می‌توانند در حین اجرای برنامه، عضویت خود برای سرویس را لغو کنند.
+دقت شود که خود کلاس‌‌های سابجکت
+معمولا از نوع پروکسی هستند (\nameref{HWProxySec}).
+\end{RTL}
