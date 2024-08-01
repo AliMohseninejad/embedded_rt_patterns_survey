@@ -1,0 +1,50 @@
+\subsection{الگوی \lr{Interrupt}}
+\label{HWInterruptSec}
+\begin{RTL}
+یکی از واحدهای مهم در سیستم‌های سخت‌افزاری، واحد \lr{Interrupt} است.
+\lr{Interrupt} برای هندل‌کردن وقایعی است که توسط سخت‌افزار جرقه زده می‌شوند.
+زمانی که یک \lr{interrupt} رخ می‌دهد، نرم‌افزار فرایند کاری اصلی خود را متوقف
+کرده و یک فرایند رسیدگی به \lr{interrupt} اتفاق‌افتاده آغاز می‌شود. با انجام
+این فرایند و رسیدگی به \lr{interrupt}، فرایند اصلی نرم‌افزار دوباره از سر گرفته
+می‌شود. ساختار این الگو در شکل \ref{HWInterruptClassDiag}
+نمایش داده شده‌است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlclass{InterruptVectorTable <<File>>}{
+        \lr{ISRAddress: vectorPtr[]}
+    }{}
+    \umlclass[x=7]{InterruptHandler}{
+        \lr{oldVectors: vectorPtr}
+    }{
+        \lr{install()}\\
+        \lr{deinstall()}\\
+        \lr{handleInterrupt1()}\\
+        \lr{handleInterrupt2()}\\
+        \lr{handleInterrupt3()}\\
+        \lr{handleInterrupt4()}
+    }
+    \umlclass[x=3, y=-5]{vectorPtr <<Type>>}{
+        \lr{void (*vectorPtr)(void)}
+    }{}
+\umluniassoc[mult2=1]{InterruptHandler}{InterruptVectorTable <<File>>}
+\umldep{InterruptHandler}{vectorPtr <<Type>>}
+\umldep{InterruptVectorTable <<File>>}{vectorPtr <<Type>>}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Interrupt}}
+\label{HWInterruptClassDiag}
+\end{figure}
+\begin{RTL}
+در این الگو، کلاس \lr{InterruptHandler} کار اصلی را انجام می‌دهد.
+این کلاس دارای بردار \lr{Interrupt}هاست.
+با فراخوانی تابع \lr{install} می‌توان این بردار را با یک بردار جدید جایگزین‌کرد.
+این بردار در اصل تعدادی اشاره‌گر به توابعی است که در صورت بروز \lr{Interrupt}
+باید فراخوانی شوند. با تابع \lr{deinstall} نیز می‌توان بردار را به حالت قبلی
+برگرداند. فایل \lr{InterruptVectorTable} شامل یک لیست از
+اشاره‌گرها به توابع \lr{Interrupt Service Routine} است.
+و \lr{vectorPtr} صرفا یک نوع اشاره‌گر به تابع است که از نوع آن در
+\lr{InterruptVectorTable} استفاده شده‌است.
+\end{RTL}
