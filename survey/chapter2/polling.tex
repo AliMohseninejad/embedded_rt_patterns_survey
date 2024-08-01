@@ -1,0 +1,103 @@
+\subsection{الگوی \lr{Polling}}
+\label{HWPollingSec}
+\begin{RTL}
+این الگو یک روش دیگر برای دریافت داده‌ها از سنسورها است و زمانی استفاده می‌شود که
+استفاده از \nameref{HWInterruptSec} ممکن نیست یا این که
+داده‌هایی که می‌خواهیم ضبط کنیم آن قدر اضطراری نیستند و می‌توان برای دریافت آن‌ها
+صبر کرد. عملکرد این الگو به این صورت است که با سرکشی‌کردن به صورت دوره‌ای داده‌ها
+را دریافت می‌کنیم. حال این الگو در دو شکل بیان می‌شود: سرکشی داده‌ها به صورت
+دوره‌ای و به صورت فرصتی.
+در نوع اول با استفاده از یک تایمر، در زمان‌های مشخصی، برای دریافت داده‌های جدید
+سرکشی می‌کنیم که ساختار کلاسی آن نیز
+در شکل \ref{HWPeriodicPollingClassDiag} نشان داده شده‌است.
+در نوع دوم زمانی عمل سرکشی را انجام می‌دهیم که برای سیستم ممکن باشد و
+قیدهای زمانی سیستم به ما این اجاره را بدهد. ساختار کلاسی این نوع نیز در شکل
+\ref{HWOpportunisticPollingClassDiag} رسم شده‌است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlclass{Device}{
+        \lr{data}\\
+        \lr{deviceState}
+    }{
+        \lr{getData()} \\
+        \lr{getState()}
+    }
+    \umlclass[x=8]{PeriodicPoller}{
+        \lr{pollTime}
+    }{
+        \lr{startPolling()}\\
+        \lr{stopPolling()}\\
+        \lr{poll()}\\
+        \lr{setPollTime()}
+    }
+    \umlclass[x=8, y=-5]{PollDataClient}{}{
+        \lr{handleData()}\\
+        \lr{handleDeviceState()}
+    }
+    \umlclass[x=8, y=6]{PollTimer}{
+        \lr{oldVector}
+    }{
+        \lr{installInterruptHandler()}\\
+        \lr{removeInterruptHandler()}\\
+        \lr{startTimer()}\\
+        \lr{stopTimer()}\\
+        \lr{handleTimerInterrupt()}
+    }
+\umluniassoc[mult2=MAX\_POLL\_DEVICES, pos2=0.5]{PeriodicPoller}{Device}
+\umluniassoc[mult2=MAX\_POLL\_DEVICES]{PeriodicPoller}{PollDataClient}
+\umlassoc[mult1=1, mult2=1]{PeriodicPoller}{PollTimer}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Periodic Polling}}
+\label{HWPeriodicPollingClassDiag}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlclass{Device}{
+        \lr{data}\\
+        \lr{deviceState}
+    }{
+        \lr{getData()} \\
+        \lr{getState()}
+    }
+    \umlclass[x=8]{OpportunisticPoller}{}{
+        \lr{poll()}
+    }
+    \umlclass[x=8, y=-5]{PollDataClient}{}{
+        \lr{handleData()}\\
+        \lr{handleDeviceState()}
+    }
+    \umlclass[x=8, y=6]{ApplicationProcessingElement}{}{
+        \lr{applicationFunction()}
+    }
+\umluniassoc[mult2=MAX\_POLL\_DEVICES, pos2=0.5]{OpportunisticPoller}{Device}
+\umluniassoc[mult2=MAX\_POLL\_DEVICES]{OpportunisticPoller}{PollDataClient}
+\umluniassoc[mult2=1]{ApplicationProcessingElement}{OpportunisticPoller}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Opportunistic Polling}}
+\label{HWOpportunisticPollingClassDiag}
+\end{figure}
+\begin{RTL}
+در این الگو کلاس \lr{Device} همان سخت‌افزار/حافظه/... هست که
+می‌خواهیم داده‌هایش را دریافت کنیم. کلاس \lr{PollDataClient} نیز
+کلاینتی است که می‌خواهد داده‌های \lr{Device} را دریافت کند.
+در ساختار شکل \ref{HWPeriodicPollingClassDiag}، کلاس
+\lr{PeriodicPoller} با سرکشی از \lr{Device} داده‌های
+آن را دریافت می‌کند. این سرکشی زمانی انجام می‌شود که کلاس \lr{PollTimer}
+تابع \lr{poll} را از \lr{PeriodicPoller} صدا بزند.
+زمانی که فرمان \lr{startPolling} به بیاید، تایمر کار خود را شروع
+می‌کند و در هر \lr{Interrupt}ی که تایمر می‌خورد، تابع \lr{poll} را
+صدا می‌زند. با فراخوانی تابع \lr{stopPolling}، تایمر متوقف می‌شود.
+در ساختار \ref{HWOpportunisticPollingClassDiag} تفاوت
+در این است که تابع \lr{poll} زمانی صدا زده می‌شود که کلاس
+\lr{ApplicationProcessingElement} بخواهد. یعنی زمانی که این
+کلاس در فرایندهای خود لازم می‌بیند که لازم است داده‌های جدید از \lr{Device}
+گرفته‌شود، این تابع صدا زده می‌شود.
+\end{RTL}
