@@ -1,14 +1,15 @@
-\section{الگوهای طراحی برای دسترسی به سخت‌افزار}
+\subsection{الگوهای طراحی برای همزمانی نهفته و مدیریت حافظه}
 \begin{RTL}
-نرم‌افزارهای نهفته بر روی یک بستر سخت‌افزاری مستقر می‌شوند و معمولا بسیاری از قابلیت‌های
-آن‌ها ملزم به ارتباط با سخت‌افزار می‌شود. به همین دلیل \lr{Douglass}
-\cite{ref1} یک دسته از الگوها را با عنوان الگوهای دسترسی به سخت‌افزار
-معرفی می‌کند.
+در بسیاری از مواقع در سیستم‌های نهفته لازم است که فعالیت‌های متنوع به صورت همزمان
+انجام شوند. به همین دلیل \lr{Douglass}
+\cite{ref1} یک دسته از الگوها به نام الگوهای برنامه‌ریزی
+را معرفی کرده‌است.
 \end{RTL}
-\input{survey/chapter2/proxy}
-\input{survey/chapter2/adapter}
-\input{survey/chapter2/mediator}
-\input{survey/chapter2/observer}
-\input{survey/chapter2/debouncing}
-\input{survey/chapter2/interrupt}
-\input{survey/chapter2/polling}
+\input{survey/chapter2/cyclic_executive}
+\input{survey/chapter2/static_priority}
+\input{survey/chapter2/critical_region}
+\input{survey/chapter2/guarded_call}
+\input{survey/chapter2/queuing}
+\input{survey/chapter2/rendezvous}
+\input{survey/chapter2/simultaneous_locking}
+\input{survey/chapter2/ordered_locking}

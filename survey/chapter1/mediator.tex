@@ -1,0 +1,34 @@
+\subsubsection{الگوی \lr{Mediator}}
+\label{HWMediatorSec}
+\begin{RTL}
+این الگو با معرفی یک کلاس میانجی‌گر بین چند کلاس همکار، کمک می‌کند که چند
+سخت‌افزار را با هم مدیریت کند. ساختار این الگو در شکل \ref{HWMediatorClassDiag}
+ترسیم شده‌است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+\lr{
+    \umlclass{Mediator}{}{}
+    \umlinterface[x=5]{CollaboratorInterface}{}{}
+    \umlclass[x=5, y=-3]{SpecificCollaborator}{}{}
+\umluniassoc[mult2=1]{CollaboratorInterface}{Mediator}
+\umlimpl{SpecificCollaborator}{CollaboratorInterface}
+\umluniassoc[geometry=|-, mult2=1..*, pos2=1.8]{Mediator}{SpecificCollaborator}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Mediator}}
+\label{HWMediatorClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل مشخص است، کلاس میانجی با هر یک از کلاس‌های همکار ارتباط دارد.
+این ارتباط به این شکل است که کلاس میانجی تمامی پیاده‌سازی‌های رابط همکار را می‌شناسد
+و با آن‌ها ارتباط دارد. این کلاس‌ها خودشان نیز همانطور که نشان‌داده شده،
+میانجی را می‌شناسند و با آن ارتباط دارند.
+هر یک از کلاس‌های همکار، با سخت‌افزار در ارتباط هستند و حتی می‌توانند خود یک پروکسی
+باشند (\nameref{HWProxySec}).
+ولی به هر صورت در این الگو برای ارتباط با یکدیگر، باید برای میانجی سیگنال
+بفرستند و میانجی وظیفه ارتباطات بین همکارها را دارد (با ایجاد ارتباط غیر مستقیم).
+به طور کلی فرایندهایی که در آن
+استفاده از چند سخت‌افزار و نیاز است، توسط میانجی کنترل می‌شود.
+\end{RTL}
