@@ -1,7 +1,50 @@
 \subsubsection{الگوی \lr{CRC}}
 \label{safeCRCSec}
 \begin{RTL}
-این الگو با استفاده از یک کد باینری با طول ثابت \lr{CRC}،
+این الگو \cite{ref1} با استفاده از یک کد باینری با طول ثابت \lr{CRC}،
 یک الگوریتم خطایابی ارائه می‌دهد که برای ساختار داده‌های
 بزرگ بسیار کاربرد خواهد داشت.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{DataClient}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=6]{CRCProtectedData}{
+            \lr{CRC}\\
+            \lr{dataSet}
+        }{
+            \lr{updateData()}\\
+            \lr{getData()}\\
+            \lr{errorHandler()}
+            }
+            \umlclass[x=12, y=2]{DataType}{
+            }{
+    }
+            \umlclass[x=6, y=4, type=function]{computeCRC}{}{        
+    }       
+    \umluniassoc[mult2=1]{DataClient}{CRCProtectedData}
+    \umldep[mult2=Usage, pos=0.5]{CRCProtectedData}{DataType}
+    \umldep[]{CRCProtectedData}{computeCRC}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{CRC}}
+\label{safeCRCClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{safeCRCClassDiag} مشخص
+است، این الگو با استفاده از یک \lr{CRCProtectedData}، می‌تواند
+پیاده‌سازی مورد نظر را انجام دهد. این کلاس با استفاده از تابع مربوطه برای محاسبه
+\lr{CRC}، زمانی که داده‌ها می‌خواهند ذخیره شوند، این مقدار را نیز
+ذخیره می‌کند. همچنین زمان خواندن داده، با محاسبه دوباره \lr{CRC} و
+مقایسه آن با مقدار قبلی، از صحت عملکرد مطمئن می‌شود و در صورت وجود مشکل،
+فرایند هندل‌کردن خطا باید انجام شود.
+این الگو با معرفی حجم کمی از داده اضافی در کنار داده اصلی، برای
+تشخیص خطاهای تک‌بیت روش خوبی ارائه می‌دهد. این الگو بیشتر در حوزه
+ارتباطات استفاده می‌شود و زمانی که می‌خواهیم یک پیام را بفرستیم، برای تشخیص
+خطاهای احتمالی، از این الگو استفاده می‌شود.
 \end{RTL}

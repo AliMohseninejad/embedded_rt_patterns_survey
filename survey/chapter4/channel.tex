@@ -1,9 +1,49 @@
 \subsubsection{الگوی \lr{Channel}}
 \label{safeChannelSec}
 \begin{RTL}
-کانال‌ها المان‌های نرم‌افزاری هستند که یک پردازش \lr{end-to-end} انجام
-می‌دهند. این الگو با تعریف کانال‌هایی که مقدار زیادی اضافات در خود
-دارند، باعث می‌شوند که بتوانیم از آن‌ها در کاربردهای امنیت و قابلیت
-اطمینان استفاده کنیم. به طور مثال در این الگو، می‌توانیم با اینکه
-یک خطا تشخیص داده شده‌است، همچنان سرویس مورد نظر را ارائه دهیم.
+الگوی کانال \cite{ref1} از تکرار در مقیاس متوسط
+تا بزرگ پشتیبانی می‌کند و به شناسایی و مدیریت خطاهای زمان اجرا کمک می‌کند.
+یک کانال داده‌ها را از مرحله دریافت تا \lr{Actuation} پردازش می‌کند
+و واحدی مستقل و خودکفا از عملکرد را فراهم می‌کند. ارزش این الگو
+در استفاده از چندین کانال برای رفع نگرانی‌های
+ایمنی و قابلیت اطمینان است. این الگو شناسایی واضح خطا
+و تداوم خدمات یا دستیابی به حالت \lr{Fault-Safe} را ارائه می‌دهد.
+با این حال، به حافظه، زمان پردازش و سخت‌افزار اضافی نیاز دارد.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{SensorDeviceDriver}{
+            \lr{data}
+        }{
+            \lr{acquireData()}
+            }
+            \umlclass[x=6]{AbstractDataTransform}{
+            \lr{}
+        }{
+            \lr{transform()}
+            }
+            \umlclass[x=13]{ActuatorDataDriver}{
+            \lr{data}
+            }{
+    }
+            \umlclass[x=6, y=-4]{ConcrerteDataTransform}{
+            \lr{data}   
+            }{        
+    }       
+    \umluniassoc[mult2=1]{SensorDeviceDriver}{AbstractDataTransform}
+    \umluniassoc[mult2=0..1]{AbstractDataTransform}{ActuatorDataDriver}
+    \umluniassoc[mult2=0..1, angle1=-0.2, angle2=30]{AbstractDataTransform}{AbstractDataTransform}
+    \umlinherit[]{ConcrerteDataTransform}{AbstractDataTransform}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Channel}}
+\label{safeChannelClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{safeChannelClassDiag} دیده می‌شود،
+این الگو با ایجاد زنجیره‌ای از پردازش‌ها (\lr{DataTransform})،
+داده‌ها را از سنسور دریافت کرده و در هر مرحله پردازشی روی آن انجام می‌دهد.
+در نهایت داده‌های پردازش‌شده به سمت \lr{Actuator}ها هدایت می‌شود.
 \end{RTL}

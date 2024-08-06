@@ -1,12 +1,71 @@
 \subsubsection{الگوی \lr{Dual Channel}}
 \label{safeDualChannelSec}
 \begin{RTL}
-این الگو با ایجاد چند کانال و ایجاد اضافات در سطحی بالاتر،
-امنیت را تحقق می‌بخشد. اگر کانال‌ها از یک نوع باشند، این الگو
-\lr{Homogeneous Redundancy Channel} و در غیر این صورت
-\lr{Heterogeneous Redundancy Channel} خوانده می‌شود.
+این الگو \cite{ref1} با ایجاد چند کانال و ایجاد تکرار در سطحی بالاتر،
+امنیت را تحقق می‌بخشد. اگر کانال‌های مورد استفاده از یک نوع باشند، این الگو
+\nameref{archSafeHomoRedundancySec} و در غیر این صورت
+\nameref{archSafeHeteroRedundancySec} خوانده می‌شود.
 این الگو با تولید تعداد اضافه‌ای از کانال‌ها و مدیریت این که
 کدام یک از آن‌ها اکنون فعال هستند کار می‌کند. به طور کلی
 اگر در یکی از کانال‌ها خطایی رخ دهد، این الگو با سوییچ‌کردن
 روی یک کانال دیگر، سیستم را از حالت خطا خارج می‌کند.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{SensorDeviceDriver}{
+            \lr{data}
+        }{
+            \lr{acquireData()}
+            }
+            \umlclass[x=6]{AbstractDataTransform}{
+            \lr{}
+        }{
+            \lr{transform()}
+            }
+            \umlclass[x=13]{ActuatorDataDriver}{
+            \lr{data}
+            }{
+    }
+            \umlclass[x=6, y=-4]{ConcrerteDataTransform}{
+            \lr{data}   
+            }{  
+            \lr{transform()}      
+    }       
+    \umlclass[x=9, y=4]{AbstractDataTransformChecker}{
+        \lr{}   
+        }{  
+        \lr{check()}      
+}       
+\umlclass[x=1, y=7.5]{ConcreteTransformChecker}{
+    \lr{}   
+    }{  
+    \lr{check()}      
+}       
+\umlclass[x=9, y=7.5]{channel}{
+    \lr{}   
+    }{  
+    \lr{check()}      
+}       
+    \umluniassoc[mult2=1]{SensorDeviceDriver}{AbstractDataTransform}
+    \umluniassoc[mult2=0.1, pos=0.5]{AbstractDataTransform}{ActuatorDataDriver}
+    \umluniassoc[mult2=0.1, angle1=-0.2, angle2=30]{AbstractDataTransform}{AbstractDataTransform}
+    \umlinherit[]{ConcrerteDataTransform}{AbstractDataTransform}
+    \umlinherit[geometry=|-]{ConcreteTransformChecker}{AbstractDataTransformChecker}
+    \umluniassoc[mult2=0.1]{AbstractDataTransform}{AbstractDataTransformChecker}
+    \umluniassoc[attr2=1|itsChannel, anchor1=10, anchor2=-205]{ConcreteTransformChecker}{channel}
+    \umluniassoc[attr2=1|itsOtherChannel,pos2=0.7, anchor1=-15, anchor2=216]{ConcreteTransformChecker}{channel}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Dual Channel}}
+\label{safeDualChannelClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{safeDualChannelClassDiag} مشخص
+است، این الگو کاملا مشابه ساختار \nameref{safeProtSingleChSec}
+است با این تفاوت که کلاس \lr{ConcreteTransformChecker}
+به دو کانال متصل است. یکی کانل فعلی یا خود. و دیگری کانال یدکی یا دیگر.
+در صورتی که در یک کانال خطا رخ دهد، این الگو می‌تواند این کانال را غیرفعال
+کرده و کانال دیگر را فعال کند.
 \end{RTL}

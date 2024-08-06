@@ -1,8 +1,70 @@
 \subsubsection{الگوی \lr{Smart Data}}
 \label{safeSmartDataSec}
 \begin{RTL}
-این الگو با تولید گاردهایی روی داده‌ها و تعریف پیش‌شرط‌هایی روی آن‌ها
+این الگو \cite{ref1} با تولید گاردهایی روی داده‌ها و تعریف پیش‌شرط‌هایی روی آن‌ها
 در توابع مختلف تلاش می‌کند تا حد ممکن رفتار برنامه و توابع را
 به یک صورت \lr{Safe} ایجاد کند. این شروط در زمان اجرا برنامه چک
 می‌شوند و نه در زمان کامپایل.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=-1]{ErrorManager}{
+            \lr{}
+        }{ \lr{handleError()}
+        }
+            \umlclass[x=2, y=-4]{ServerClass}{
+            \lr{sdt}
+        }{
+            \lr{setValue()}\\
+            \lr{getValue()}\\
+            \lr{Init()}
+            }
+            \umlclass[x=-1, y=-10]{ErrorCodeType}{
+                \lr{NOERRORS}\\
+                \lr{BELOWRANGE}\\
+                \lr{ABOVERAGE}\\
+                \lr{INCONSISTENTVALUE}\\
+                \lr{ILLEGALUSEOFNULLPTR}\\
+                \lr{INDEXOUTOFRANGE}
+            }{
+                }
+                \umlclass[x=9, y=-2]{SmartDataType}{
+                    \lr{value}\\
+                    \lr{lowRange}\\
+                    \lr{highRange}\\
+                    \lr{errorCode}
+                }{
+                    \lr{Init}\\
+                    \lr{checkValidity()}\\
+                    \lr{setValue()}\\
+                    \lr{setPrimitive()}\\
+                    \lr{getPrimitive()}\\
+                    \lr{getValue()}\\
+                    \lr{errorHandler()}\\
+                    \lr{setLowBoundary()}\\
+                    \lr{setHighBoundary()}\\
+                    \lr{getLowBoundary()}\\
+                    \lr{getHighBoundary()}\\
+                    \lr{getErrorCode()}\\
+                    \lr{cmp()}\\
+                    \lr{pCmp()}
+    }    
+    \umldep[mult1=Usage]{ErrorManager}{ErrorCodeType}
+    \umluniassoc[mult2=1, anchor1=60, pos2=0.9]{SmartDataType}{ErrorManager}
+    \umldep[mult2=Usage, pos2=0.6]{ServerClass}{SmartDataType}
+    \umldep[mult2=Usage]{ServerClass}{ErrorCodeType}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Smart Data}}
+\label{safeSmartDataClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{safeSmartDataClassDiag}
+دیده می‌شود، ساختار داده \lr{SmartDataType}، توابع زیادی برای
+چک‌کردن داده خود به \lr{ServerClass} ارائه داده‌است.
+این الگو با قراردادن چک‌های امنیتی بر روی ساختار داده، می‌تواند باعث امنیت
+داده در زمان \lr{set}شدن شود. اما این چک‌ها خود سرباری برای انجام هر عملیات
+با این داده‌ها می‌شوند.
 \end{RTL}

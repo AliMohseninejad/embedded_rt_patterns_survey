@@ -1,11 +1,61 @@
 \subsubsection{الگوی \lr{Protected Single Channel}}
 \label{safeProtSingleChSec}
 \begin{RTL}
-این الگو بر پایه \nameref{safeChannelSec} ایجاد شده است.
+این الگو \cite{ref1} بر پایه \nameref{safeChannelSec} ایجاد شده است.
 این الگو با پیاده‌سازی تعدای چک و گاردهای تعبیه‌شده در بخش‌های مهم
-کانال، می‌خواهد مراتبی برای ایجاد امنیت بسازد. میزان اضافات داده
+کانال، می‌خواهد مراتبی برای ایجاد امنیت بسازد. میزان تکرار داده
 در این الگو کمتر از \nameref{safeChannelSec} است و به همین دلیل در
 صورت تشخیص خطا، نمی‌تواند به کار خود ادامه دهد اما در صورتی
 که خطا به صورت گذرا باشد، ممکن است که بتواند این کار را انجام
 دهد.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{SensorDeviceDriver}{
+            \lr{data}
+        }{
+            \lr{acquireData()}
+            }
+            \umlclass[x=6]{AbstractDataTransform}{
+            \lr{}
+        }{
+            \lr{transform()}
+            }
+            \umlclass[x=13]{ActuatorDataDriver}{
+            \lr{data}
+            }{
+    }
+            \umlclass[x=6, y=-4]{ConcrerteDataTransform}{
+            \lr{data}   
+            }{  
+            \lr{transform()}      
+    }       
+    \umlclass[x=9, y=4]{AbstractDataTransformChecker}{
+        \lr{}   
+        }{  
+        \lr{check()}      
+}       
+\umlclass[y=4]{ConcreteTransformChecker}{
+    \lr{}   
+    }{  
+    \lr{check()}      
+}       
+    \umluniassoc[mult2=1]{SensorDeviceDriver}{AbstractDataTransform}
+    \umluniassoc[mult2=0..1]{AbstractDataTransform}{ActuatorDataDriver}
+    \umluniassoc[mult2=0..1, angle1=-0.2, angle2=30]{AbstractDataTransform}{AbstractDataTransform}
+    \umlinherit[]{ConcrerteDataTransform}{AbstractDataTransform}
+    \umlinherit[]{ConcreteTransformChecker}{AbstractDataTransformChecker}
+    \umluniassoc[mult2=0..1]{AbstractDataTransform}{AbstractDataTransformChecker}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Protected Single Channel}}
+\label{safeProtSingleChClassDiag}
+\end{figure}
+\begin{RTL}
+ساختار این الگو در شکل \ref{safeProtSingleChClassDiag}
+آمده است. این الگو نسبت به \nameref{safeChannelSec} تکرار
+را کاهش می‌دهد ولی در عوض تعدادی چک در مراحل مختلف پردازش داده‌ها
+اضافه می‌کند که به امنیت سیستم کمک می‌کند.
 \end{RTL}

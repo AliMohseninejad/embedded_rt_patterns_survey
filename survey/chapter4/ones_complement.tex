@@ -1,7 +1,7 @@
 \subsubsection{الگوی \lr{One's Complement}}
 \label{safeOnesCompSec}
 \begin{RTL}
-این الگو برای تشخیص آلودگی در حافظه است که ممکن است به دلیل اثرات
+این الگو \cite{ref1} برای تشخیص آلودگی در حافظه است که ممکن است به دلیل اثرات
 بیرونی رخ داده‌باشد یا خطای سخت‌افزار باشد. با استفاده از این الگو
 می‌توان آلودگی را برای یک یا چند بیت از حافظه تشخیص داد.
 عملکرد کلی الگو به این شکل است که داده‌ها را دو بار ذخیره
@@ -9,4 +9,41 @@
 در زمان خواندن داده‌ها، اگر مقدار داده با \lr{1's Complement}
 گرفته‌شده آن دقیقا قرینه بودند، آن‌گاه داده بدون خطا ذخیره
 شده‌است و اگر اینگونه نباشد، نوشتن این داده با خطا مواجه شده‌بود.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{DataClient}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=8]{OnesCompProtectedDataElement}{
+            \lr{datum}\\
+            \lr{invertedDatum}
+        }{
+            \lr{getDatum()}\\
+            \lr{setDatum()}\\
+            \lr{errorHandler()}
+            }
+            \umlclass[x=3, y=5]{DataType}{
+            }{
+    }    
+    \umluniassoc[mult2=1]{DataClient}{OnesCompProtectedDataElement}
+    \umldep[]{DataClient}{DataType}
+    \umldep[]{OnesCompProtectedDataElement}{DataType}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{One's Complement}}
+\label{safeOnesCompClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{safeOnesCompClassDiag}
+دیده می‌شود، کلاس \lr{OnesCompProtectedDataElement}
+با انجام عملیات تکرار در ذخیره‌سازی و بررسی داده و مقایسه آن با مقدار
+قرینه آن در زمان خواندن، فرایند الگو را داخل خود انجام می‌دهد.
+این الگو به دلیل تکرار در نوشتن داده‌ها، باعث استفاده دو برابر از حافظه می‌شود.
+همچنین این دو داده نوشته‌شده در زمان خوانده‌شدن نیز باعث سربار اضافی می‌شوند.
+با این حال این الگو می‌تواند خطاهای گفته‌شده را تشخیص دهد.
 \end{RTL}
