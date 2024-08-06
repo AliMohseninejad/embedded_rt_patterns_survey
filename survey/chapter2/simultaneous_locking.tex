@@ -1,7 +1,63 @@
 \subsubsection{الگوی \lr{Simultaneous Locking}}
 \label{scheduleSimLockingSec}
 \begin{RTL}
-این الگو با هدف جلوگیری از \lr{Deadlock} به وجود آمده‌است.
-این کار را به این روش انجام می‌دهد که اجازه نمی‌دهد هیچ تسکی یک منبع
-را زمانی قفل کند که خود منتظر آزادشدن یک منبع دیگر است.
+این الگو \cite{ref1} بر جلوگیری از بن‌بست تمرکز دارد
+و اطمینان حاصل می‌کند که همه منابع مورد نیاز به‌طور همزمان قفل می‌شوند
+یا هیچ‌کدام قفل نمی‌شوند. این روش با شکستن شرط نگه‌داشتن
+برخی منابع در حین انتظار برای دیگران، از وقوع بن‌بست جلوگیری می‌کند،
+اما ممکن است باعث افزایش تأخیر در اجرای وظایف شود.
+این الگو به وظایف با اولویت بالاتر اجازه می‌دهد در صورت نیاز نداشتن
+به منابع قفل‌شده اجرا شوند. با این حال، این الگو وارونگی اولویت
+را حل نمی‌کند و ممکن است آن را بدتر کند مگر با استفاده
+از الگوهای دیگر در
+کنار این الگو مانند \nameref{resourcePriorInheritSec}.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=-3]{ResourceClient}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=5]{ResourceMaster}{
+            \lr{}
+        }{
+            \lr{tryLock()}\\
+            \lr{release()}
+            }
+            \umlclass[x=2, y=-5]{MultiMasteredResource}{
+                \lr{}
+            }{
+                \lr{}\\
+                \lr{accessResource()}
+                }
+                \umlclass[x=5, y=-10]{QueryMutex}{
+                    \lr{mutexID}
+                }{
+                    \lr{lock()}\\
+                    \lr{release()}\\
+                    \lr{tryLock()}
+    }    
+    \umluniassoc[attr2=1|itsResourceMaster, pos2=0.6]{ResourceClient}{ResourceMaster}
+    \umluniassoc[attr2=*|itsMultiMasteredResourceits, pos2=0.9, geometry=|-]{ResourceClient}{MultiMasteredResource}
+    \umluniaggreg[attr2=*|itsMultiMasteredResource]{ResourceMaster}{MultiMasteredResource}
+    \umlunicompo[attr2=1|itsPartMutex, geometry=|-, pos2=0.99]{MultiMasteredResource}{QueryMutex}
+    \umlunicompo[attr2=1|itsQueryMutex, pos2=0.95 ]{ResourceMaster}{QueryMutex}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Simultaneous Locking}}
+\label{scheduleSimLockingClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{scheduleSimLockingClassDiag}
+دیده می‌شود، هر \lr{ResourceClient} سرویس‌گیرنده از
+\lr{MultiMasteredResource} است. در این ساختار، این کلاینت‌ها
+حق استفاده از منابع را تا زمانی که نتوانسته‌اند کنترل \lr{ResourceMaster}
+را بدست بگیرند، ندارند. زمانی که درخواست قفل‌کردن برای
+\lr{ResourceMaster} می‌آید، این کلاس سعی می‌کند که تمامی منابع
+را قفل کند، اگر در انجام این کار موفق بود، کلاینت اجازه دارد از منابع استفاده کند.
+در غیر این صورت، تمامی منابعی که توسط \lr{ResourceMaster}
+قفل شده‌بودند، دوباره آزاد می‌شوند و یک کد خطا به کلاینت برگردانده می‌شود.
 \end{RTL}

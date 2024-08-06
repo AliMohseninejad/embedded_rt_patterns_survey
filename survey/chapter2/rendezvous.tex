@@ -1,7 +1,8 @@
 \subsubsection{الگوی \lr{Rendezvous}}
 \label{scheduleRendezvousSec}
 \begin{RTL}
-این الگو زمانی کاربرد دارد که شروط لازم برای سنکرون‌شدن تسک‌ها با یکدیگر پیچیده باشد.
+این الگو \cite{ref1} زمانی کاربرد دارد که شروط لازم برای
+سنکرون‌شدن تسک‌ها با یکدیگر پیچیده باشد.
 در این صورت \nameref{scheduleGuardedCallSec} و
 \nameref{scheduleQueuingSec} نمی‌توانند موثر واقع شوند و باید از
 الگوی \lr{Rendezvous} استفاده کرد.
@@ -10,4 +11,44 @@
 این کار به این صورت انجام می‌شود که هر یک از تسک‌ها خود را پیش شیء
 \lr{Rendezvous} رجیسترکرده و تا زمانی که این کلاس تصمیم بگیرد
 متوقف می‌شوند.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{SynchronizingThread}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=6]{Rendezvous}{
+            \lr{}
+        }{
+            \lr{synchronize()}\\
+            \lr{reset()}
+            }
+            \umlclass[x=6, y=5]{Semaphore}{
+                \lr{id}
+            }{
+                \lr{lock()}\\
+                \lr{release()}
+    }    
+    \umluniassoc[mult1=2..*, mult2=1 , pos1=0.2]{SynchronizingThread}{Rendezvous}
+    \umlcompo[attr2=itsBarrier|1, anchor1=119, anchor2=-120]{Rendezvous}{Semaphore}
+    \umlcompo[attr2=1|itsMutex, pos2=0.8]{Rendezvous}{Semaphore}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Rendezvous}}
+\label{scheduleRendezvousClassDiag}
+\end{figure}
+\begin{RTL}
+همانطور که در شکل \ref{scheduleRendezvousClassDiag}
+دیده می‌شود، کلاس \lr{SynchronizingThread} با فراخوانی
+تابع \lr{synchronize} از \lr{Rendezvous} می‌خواهد خود را
+سنکرون کند. این عملیات در \lr{Rendezvous} با بررسی چندین شرط
+انجام می‌شود و در صورتی که شروط برقرار نباشند، این \lr{Thread} باید
+بلوکه شود.
+این الگو در عین سادگی، منعطف و قابل تطبیق است. این الگو زمانی کاربرد دارد
+که می‌خواهیم تسک‌ها در زمان سنکرون‌شدن، متوقف شوند. اگر بخواهیم در توقف
+اتفاق نیافتد، باید این الگو را با الگوهای دیگر ترکیب کنیم.
 \end{RTL}

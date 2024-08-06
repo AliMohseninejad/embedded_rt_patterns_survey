@@ -1,7 +1,55 @@
 \subsubsection{الگوی \lr{Guarded Call}}
 \label{scheduleGuardedCallSec}
 \begin{RTL}
-این الگو با سری‌سازی دسترسی تسک‌ها به یک سرویس خاص، از استفاده همزمان آن
-جلوگیری می‌کند و جلوی تداخل‌های احتمالی را می‌گیرد. این الگو با استفاده از
-\lr{Semaphore} این کار را انجام می‌دهد.
+این الگو \cite{ref1} دسترسی به خدماتی را که ممکن است
+در صورت استفاده همزمان توسط چندین \lr{Thread} تداخل کنند، مدیریت می‌کند و از مکانیزم قفل
+برای جلوگیری از این تداخل استفاده می‌کند. \lr{Semaphore}ها انحصار متقابل
+را در محیط چندوظیفه‌ای تضمین می‌کنند و دسترسی به‌موقع به خدمات را هنگامی
+که توسط وظایف دیگر استفاده نمی‌شوند، فراهم می‌کنند. با این حال،
+اگر با الگوهای دیگر ترکیب نشود، می‌تواند باعث وارونگی اولویت نامحدود شود.
+این الگو نیاز به همگام‌سازی یا تبادل داده به‌موقع را برطرف می‌کند و
+با جلوگیری از دسترسی همزمان، یکپارچگی داده‌ها را تضمین
+می‌کند. استفاده اشتباه ممکن است منجر به وارونگی اولویت شود، اما
+راه‌حل‌های پشتیبانی‌شده توسط \lr{RTOS} می‌توانند این مشکل را کاهش دهند.
+ساختار کلاسی این الگو در شکل \ref{ConGuardCallClassDiag}
+نمایش داده شده‌است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{PreeptiveTask}{
+            \lr{}
+        }{
+            \lr{run()}
+            }
+            \umlclass[x=5]{GuardedResource}{
+            \lr{resourceValue}
+        }{
+            \lr{setResourceValue()}\\
+            \lr{getResourceValue()}
+            }
+            \umlclass[x=5, y=-5]{Semaphore}{
+                \lr{}
+            }{
+                \lr{lock()}\\
+                \lr{release()}
+    }    
+    \umluniassoc[mult1=*, mult2=1 , pos1=0.2]{PreeptiveTask}{GuardedResource}
+    \umlcompo[mult1=1, mult2=1]{GuardedResource}{Semaphore}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Guarded Call}}
+\label{ConGuardCallClassDiag}
+\end{figure}
+\begin{RTL}
+کلاس \lr{GuardedResource} با در اختیار داشتن \lr{Semaphore}ها
+و فراخوانی \lr{lock} زمانی که یک تسک می‌خواهد از آن استفاده کند،
+متوجه می‌شود که آیا باید به تسک اجازه استفاده از منابع را بدهد یا خیر.
+زمانی تسک فعالی که در حال استفاده از \lr{GuardedResource} است،
+کارش تمام می‌شود، \lr{GuardedResource} تابع \lr{release} را
+برای \lr{Semaphore} مربوط به آن دسته تسک‌ها را صدا می‌زند و اکنون
+منبع آزاد است تا زمانی که یک تسک جدید آن را قفل کند.
+دقت شود که در ساختار این الگو کلاس‌هایی که توسط \lr{RTOS} ارائه می‌شوند
+رسم نشده و صرفا هدف نشان‌دادن رفتار الگو است.
 \end{RTL}

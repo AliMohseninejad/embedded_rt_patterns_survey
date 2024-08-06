@@ -1,7 +1,7 @@
 \subsubsection{الگوی \lr{Critical Region}}
 \label{scheduleCriticalRegSec}
 \begin{RTL}
-این الگو برای زمانی استفاده می‌شود که می‌خواهیم یک تسک به خصوص بدون مزاحمت کار
+این الگو \cite{ref1} برای زمانی استفاده می‌شود که می‌خواهیم یک تسک به خصوص بدون مزاحمت کار
 خود را به پایان برساند. این عملیات به این صورت است که زمانی که این تسک
 به خصوص انجام می‌شود، فرایند سوییچ‌کردن بین تسک‌ها را متوقف می‌کنیم تا زمانی که
 این تسک به پایان برسد. سپس دوباره فرایند زمان‌بندی تسک‌ها و سوییچ‌کردن بین آن‌ها
@@ -12,4 +12,46 @@
 دوم، زمانی که می‌خواهیم یک تسک به خصوص کار خود را در کوتاه‌ترین زمان ممکن
 انجام دهد؛ در این صورت نیز باید سوییچ‌کردن بین تسک‌ها را در زمان انجام
 این تسک متوقف کنیم.
+\end{RTL}
+\begin{RTL}
+در این الگو باید زمان بحرانی تا حد ممکن کوتاه باشد، زیرا که این الگو
+می‌تواند زمان‌بندی سایر تسک‌ها را تحت تاثیر قرار دهد. مشکل واونگی اولویت بی‌نهایت
+در این الگو وجود ندارد زیرا که در زمان بحرانی سوییچ‌کردن بین تسک‌ها را نداریم.
+یکی از مسائلی که باید در استفاده از این الگو دقت کرد، فراخوانی \lr{Critical Region}
+یک تابع از داخل \lr{Critical Region} یک تابع دیگر است.
+در چنین صورتی ممکن است که تابع فراخوانی‌شده، فرایند سوییچ‌کردن تسک‌ها را شروع
+کند در صورتی که تابع فراخوان همچنان در حالت بحرانی است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{TaskWithSharedResource}{
+            \lr{}
+        }{
+            }
+        \umlclass[x=7]{CRSharedRsource}{
+            \lr{value}
+            }{\lr{setValue()}\\
+            \lr{getValue()}
+    }    
+    \umluniassoc[mult1=*, mult2=1 , pos1=0.2]{TaskWithSharedResource}{CRSharedRsource}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Critical Region}}
+\label{ConCriticalClassDiag}
+\end{figure}
+\begin{RTL}
+در شکل \ref{ConCriticalClassDiag} کلاس
+\lr{CRSharedRsource} باید
+تنها در دست یک \lr{Thread} باشد. در این کلاس هر کدام از
+توابع \lr{setValue} و \lr{getValue} باید به صورت
+جداگانه \lr{Critical Region} را پیاده‌سازی کنند.
+کلاس \lr{TaskWithSharedResource} اطلاعی از مسئله
+\lr{Critical Region} ندارد و این مسئله در خود
+\lr{CRSharedRsource} هندل‌شده.\footnote{یک حالت دیگر
+از این الگو در \cite{ref1} بیان شده که در آن، مسئله
+\lr{Shared Resource} نیست و صرفا مربوط به زمان‌بندی است.
+در این حالت خود \lr{Task} باید مسئله \lr{Critical Region}
+را هندل‌کند.}
 \end{RTL}

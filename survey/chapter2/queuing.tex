@@ -1,7 +1,8 @@
 \subsubsection{الگوی \lr{Queuing}}
 \label{scheduleQueuingSec}
 \begin{RTL}
-این الگو با بهره‌گیری از یک سیستم \lr{FIFO}، می‌تواند بین تسک‌ها و رشته‌های
+این الگو \cite{ref1} با بهره‌گیری
+از یک سیستم \lr{FIFO}، می‌تواند بین تسک‌ها و رشته‌های
 مختلف برنامه پیام رد و بدل کند. استفاده از این سیستم برای تسک‌های آسنکرون
 بسیار ایده‌آل است. یکی دیگر از کاربردهای این الگو، در به اشتراک‌گذاری یک
 منبع مشترک بین تسک‌ها است. این الگو با ارسال داده‌ها از یک منبع به صورت
@@ -9,4 +10,57 @@
 جلوگیری می‌کند. مشکل این الگو این است که پیامی که از یک تسک به دیگری
 می‌رود، در همان لحظه پردازش نمی‌شود و باید تا فرارسیدن نوبت آن در صف
 صبر کند.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[y=1]{Qtask}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=5]{MessageQueue}{
+            \lr{head}\\
+            \lr{tail}\\
+            \lr{size}
+        }{
+            \lr{getNextIndex()}\\
+            \lr{insert()}\\
+            \lr{remove()}\\
+            \lr{isFull()}\\
+            \lr{isEmpty()}
+            }
+            \umlclass[x=5, y=-5]{Mutex}{
+                \lr{mutexID}
+            }{
+                \lr{lock()}\\
+                \lr{release()}
+                }
+                \umlclass[x=10, y=1]{Message}{
+                    \lr{}
+                }{
+                    \lr{}
+        }    
+    \umluniassoc[mult1=*, mult2=1, anchor1=-6, anchor2=153]{Qtask}{MessageQueue}
+    \umlcompo[mult1=1, mult2=1]{MessageQueue}{Mutex}
+    \umlcompo[anchor1=28]{MessageQueue}{Message}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Queuing}}
+\label{ConQueuingClassDiag}
+\end{figure}
+\begin{RTL}
+ساختار این الگو به این شکل است که هر \lr{QTask} برای ارسال یا دریافت
+پیام، از \lr{MessageQueue} استفاده می‌کند. این کلاس با فراهم‌سازی
+توابعی مانند \lr{insert} و \lr{remove}، این امکان را فراهم می‌سازد.
+\end{RTL}
+\begin{RTL}
+این الگو یک روشی برای استفاد سریال از داده‌ها فراهم می‌کند.
+وجود \lr{Mutex} در این الگو باعث می‌شود که خود \lr{MessageQueue}
+آلوده نشود. به دلیل استفاده از ارتباطات آسنکرون، دریافت داده‌ها در این الگو
+سریع‌تر از \nameref{scheduleGuardedCallSec} است.
+یکی از نکاتی که باید به آن توجه کرد، انتخاب درست اندازه صف است. اگر صف خیلی
+کوچک باشد، داده‌ها از دست می‌روند و اگر خیلی بزرگ باشد، استفاده از حافظه
+غیر بهینه است.
 \end{RTL}

@@ -1,7 +1,7 @@
 \subsubsection{الگوی \lr{Static Priority}}
 \label{scheduleStaticPriSec}
 \begin{RTL}
-این یکی از پرکاربردترین الگوهای برنامه‌ریزی در سیستم‌های نهفته بی‌درنگ
+این \cite{ref1} یکی از پرکاربردترین الگوهای برنامه‌ریزی در سیستم‌های نهفته بی‌درنگ
 است. این الگو به ما این قدرت را می‌دهد تا بتوانیم با استفاده از
 یک سیستم اولویت‌دهی به تسک‌ها، آن‌ها را انجام دهیم. در این
 سیستم فرض می‌شود که همه تسک‌ها از نوع سنکرون هستند و
@@ -9,4 +9,88 @@
 تسک با نزدیک‌ترین ددلاین بالاترین اولویت را داشته‌باشد. این الگو نسبت
 به \nameref{scheduleCyclicExecSec} پیچیده‌تر بوده
 و هدف استفاده از آن، اولویت‌دهی به تسک‌های ضروری‌تر است.
+\end{RTL}
+\begin{RTL}
+با این حال، ممکن است برای سیستم‌های ساده‌تر بدون وقایع ناگهانی
+اضطراری زیاد باشد. در حالی که تحلیل زمان‌بندی را ساده می‌کند،
+پیاده‌سازی اشتباه می‌تواند منجر به وارونگی اولویت نامحدود شود
+وقتی که تسک‌ها، منابع را به اشتراک می‌گذارند. این مشکل را می‌توان
+با استفاده از الگوهای به اشتراک‌گذاری منابع که وارونگی اولویت را محدود می‌کنند،
+کاهش داد. روش معمول برای تعیین اولویت‌ها بر اساس مدت زمان ددلاین است،
+به طوری که ددلاین‌های کوتاه‌تر اولویت بالاتری دریافت می‌کنند.
+الگوی اولویت ثابت بیشتر بر پاسخگویی تأکید دارد تا عدالت و
+زمانی که وظایف بیشتر وقت خود را در انتظار شروع شدن توسط
+وقایع می‌گذرانند، بسیار مؤثر است.
+\end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[y=2, fill=pink!50]{PriorityQueue}{
+            \lr{}
+        }{
+            \lr{inseret()} \\
+            \lr{remove()}
+        }
+        \umlclass[x=5, fill=pink!50]{staticTackControlBlock}{
+            \lr{priority}
+            \lr{startAdress}\\
+            \lr{entryPoint}
+        }{}
+        \umlclass[y=-4, fill=pink!50]{statitcPriorityScheduler}{}{
+            \lr{createThread()}\\
+            \lr{destroyThread()}\\
+            \lr{blockThread()}\\
+            \lr{unblockThread()}
+        }
+        \umlclass[x=10, fill=pink!50]{stack}{
+            \lr{baseAddr}\\
+            \lr{top}
+        }{}
+        \umlclass[x=10, y=-4]{AbstractStaticThread}{
+            \lr{}
+        }{
+            \lr{run()}    
+        }
+        \umlclass[y=-8, fill=pink!50]{Mutex}{
+            \lr{MutexID}
+        }{
+            \lr{lock()}\\
+            \lr{release()}
+        }    
+        \umlclass[x=5, y=-8]{SharedResource}{
+        \lr{}
+    }{}
+    \umlclass[x=11, y=-9]{ConcreteStaticThread}{}{
+    }    
+    \umlcompo[attr2=1|itsReadyQueue, mult1=1 , pos1=0.2]{statitcPriorityScheduler}{PriorityQueue}
+    \umlcompo[attr2=itsBlockedQueue|1, mult1=1 , anchor1=115, anchor2=-120 ,pos1=0.2]{statitcPriorityScheduler}{PriorityQueue}
+    \umlassoc[mult1=1, mult2=1]{staticTackControlBlock}{stack}
+    \umlcompo[mult1=1, mult2=1]{AbstractStaticThread}{stack}
+    \umluniassoc[mult2=1, mult1=*]{Mutex}{statitcPriorityScheduler}
+    \umlimpl[anchor2=-50]{ConcreteStaticThread}{AbstractStaticThread}
+    \umluniassoc[mult2=1]{SharedResource}{Mutex}
+    \umluniassoc[geometry=|-, mult1=*, mult2=*, pos2=1.8]{AbstractStaticThread}{SharedResource}
+    \umluniassoc[mult2=1, anchor1=-20, anchor2=-160, mult2=*]{statitcPriorityScheduler}{AbstractStaticThread}
+    \umlcompo[geometry=-|, mult1=1, attr2=*|itsTCB ,pos2=1.8]{statitcPriorityScheduler}{staticTackControlBlock}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Static Priority}}
+\label{ConStaticClassDiag}
+\end{figure}
+\begin{RTL}
+شکل \ref{ConStaticClassDiag} ساختار کلاسی این الگو را نشان می‌دهد.
+کلاس‌هایی که به رنگ صورتی رسم‌شده‌اند، کلاس‌هایی هستند که توسط یک سیستم‌عامل
+بی‌درنگ در دسترس قرار می‌گیرند. هر \lr{AbstractStaticThread} یک
+\lr{StaticTaskControlBlock} معادلش دارد که اطلاعات مهمی درباره
+نحوه برنامه‌ریزی زمانی دارد. کلاس \lr{AbstractStaticThread} که با
+کلاس \lr{Scheduler} ارتباط دارد، رابط \lr{run()} را برای کلاس
+\lr{ConcreteStaticThread} تعریف می‌کند، که دارای اشیایی است
+تسک‌های سیستم را انجام می‌دهند. کلاس \lr{Mutex} دسترسی به
+\lr{SharedResource}ها را مدیریت می‌کند و \lr{Thread}ها را
+در صورت لزوم بلوکه می‌کند. \lr{PriorityQueue} اولویت تسک‌ها را
+با استفاده از صف بلوکه‌شده‌ها و صف آماده‌ها مدیریت می‌کند.
+\lr{StaticPriorityScheduler} با استفاده از
+\lr{StaticTaskControlBlock} برای هر \lr{Thread}،
+با توجه به اولویت آن، مدیریت انجام آن را انجام می‌دهد.
 \end{RTL}
