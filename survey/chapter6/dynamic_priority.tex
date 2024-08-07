@@ -14,3 +14,58 @@
 ساده‌تر که وظایف و زمان‌بندی آن‌ها می‌تواند به دقت شناخته و برنامه‌ریزی شود،
 بهتر است.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[y=4]{ReadyQueue}{
+        }{
+            }
+            \umlclass[]{Scheluer}{
+            \lr{}
+        }{
+            \lr{createThread()}\\
+            \lr{destroyThread()}\\
+            \lr{blockThread()}\\
+            \lr{unblockThread()}\\
+            \lr{return()}
+            }
+            \umlclass[x=4.5, y=4]{TaskControlBlock}{
+                \lr{AbsolutDeadline}\\
+                \lr{startAddr}\\
+                \lr{EntryPoint}
+            }{          
+    }
+            \umlclass[x=11, y=4]{Stack}{
+                \lr{BaseAddr}\\
+                \lr{Top}   
+            }{           
+}       
+\umlclass[x=3.4, y=-2.5]{mutex}{}{  
+}       
+\umlclass[x=7.5, y=-2.5]{SharedResource}{}{  
+}       
+    \umlclass[x=11]{AbstractThread}{
+            \lr{Deadline}  
+    }{  
+        \lr{run()}      
+}       
+\umlclass[y=-5]{BlockedQueue}{}{        
+}       
+\umlclass[x=11, y=-5]{ConcreteThread}{}{      
+}       
+    \umlunicompo[mult1=1, mult2=1]{Scheluer}{ReadyQueue}
+    \umlunicompo[mult1=1, mult2=*, geometry=-|, anchor1=30, pos2=1.7]{Scheluer}{TaskControlBlock}
+    \umlunicompo[mult1=1, mult2=1]{AbstractThread}{Stack}
+    \umlassoc[mult1=1, mult2=*]{Scheluer}{AbstractThread}
+    \umlassoc[mult1=1, mult2=1]{TaskControlBlock}{Stack}
+    \umlinherit[]{ConcreteThread}{AbstractThread}
+    \umlassoc[mult1=1, mult2=1]{mutex}{SharedResource}
+    \umluniassoc[mult1=*, mult2=1]{mutex}{Scheluer}
+    \umluniassoc[mult1=1..*, mult2=*, pos2=1.2]{AbstractThread}{SharedResource}
+    \umlunicompo[mult1=1, mult2=1]{Scheluer}{BlockedQueue}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Dynamic Priority}}
+\label{archConDynPriorClassDiag}
+\end{figure}

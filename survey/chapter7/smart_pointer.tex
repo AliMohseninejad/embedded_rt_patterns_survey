@@ -15,3 +15,27 @@
 علاوه بر این، آنها هنوز هم می‌توانند منجر به نشت حافظه شوند اگر ارجاعات
 چرخشی بین اشیاء وجود داشته باشد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \begin{umlpackage}[x=-2, y=-11.5]{Client}
+            \umlclass[y=-1]{SmartPointer}{
+                \lr{rawPtr} 
+            }{
+                \lr{SmartPointer()}\\
+                \lr{SmartPointer()}\\
+                \lr{SmartPointer()}\\
+                \lr{acssece()}
+                }   
+        \end{umlpackage}
+        \umlclass[x=5, y=-11]{Target}{
+                \lr{referenceCount} 
+            }{
+                }
+    \umluniassoc[mult1=*, mult2=1, anchor1=42]{SmartPointer}{Target} 
+    }      
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Smart Pointer}}
+\label{memSmartPointerClassDiag}
+\end{figure}

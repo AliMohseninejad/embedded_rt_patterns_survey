@@ -18,3 +18,33 @@
 محدودیت‌های سخت‌گیرانه در حافظه مناسب نیست و نیاز
 به مدیریت دقیق نحوه \lr{finalize}کردن اشیا دارد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{  
+                \umlclass[x=-6, y=-15]{Client}{
+                }{
+                    } 
+        \begin{umlpackage}[x=5, y=-10]{MemoryManagmentSystem}
+                \umlclass[y=-1]{MemoryBlock}{}{
+                        }   
+                \umlclass[y=-5]{FreeBlockList}{}{
+                            } 
+                \umlclass[y=-8]{GarbegeCollector}{
+                }{
+                                }
+                \umlclass[x=-6, y=-1]{BufferedPtr}{}{
+                    } 
+                \end{umlpackage}
+                \umluniassoc[mult1=*, mult2=*, geometry=|-]{Client}{BufferedPtr}
+                \umluniassoc[mult1=*, mult2=0..1]{BufferedPtr}{MemoryBlock}
+                \umluniassoc[mult1=1, attr2=FromList|1, anchor1=140, anchor2=-146]{GarbegeCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=1|ToList, anchor1=45, anchor2=-40]{GarbegeCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbegeCollector}{Client}
+                \umluniaggreg[mult1=1, mult2=*]{FreeBlockList}{MemoryBlock}
+                \umluniassoc[mult1=*, attr2=*|derivedObject, angle1=130, angle2=170]{Client}{Client}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Garbage Compactor}}
+\label{memGarbCompatorClassDiag}
+\end{figure}

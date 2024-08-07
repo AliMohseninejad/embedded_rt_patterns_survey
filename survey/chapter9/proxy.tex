@@ -13,3 +13,54 @@
 این الگو ترافیک ارتباطات را با کاهش تعداد پیام‌های ارسال شده
 در شبکه و استفاده از سیاست اشتراک برای انتقال داده کاهش می‌دهد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=10]{LocalNotificationHandle}{}{
+            }
+            \umlclass[x=5, y=2]{Data}{
+            \lr{value}
+                }{
+            }
+            \umlclass[x=6, y=-7]{AbstractProxy}{
+            }{
+                \lr{subscribe()}\\
+                \lr{unSubscribe()}
+            }
+                \umlclass[x=7.5, y=-2]{NotficationHandle}{}{
+        }    
+        \umlclass[x=10, y=-4]{RemoteNotificationHandle}{}{
+        }   
+        \umlclass[x=1, y=-3]{AbstractClient}{}{
+            \lr{voidAccept()}\\  
+        }    
+        \umlclass[x=-1, y=-7]{ConcreteClient}{}{
+        }
+        \umlclass[x=13.5, y=-8]{AbstractServer}{}{
+        }   
+        \umlclass[x=14, y=-10.5]{ConcreteServer}{}{
+            } 
+        \umlclass[x=5, y=-13]{ClientSideProxy}{}{
+                }
+            \umlclass[x=10, y=-13]{ServerSideProxy}{}{
+                    \lr{send()}  
+                        }
+    \umlunicompo[attr2=1|clientData, pos2=1.6, geometry=|-, anchor1=140, pos1=0.1]{AbstractClient}{Data}
+    \umluniassoc[mult1=*, attr2=1|clientProxy, geometry=|-, anchor1=50, pos2=0.99]{AbstractClient}{ClientSideProxy}
+    \umlassoc[mult1=*, mult2=1]{ClientSideProxy}{ServerSideProxy}
+    \umlinherit[anchor1=150]{ServerSideProxy}{AbstractProxy}
+    \umlinherit[]{ClientSideProxy}{AbstractProxy}
+    \umlunicompo[mult2=*, anchor1=99, anchor2=-150]{AbstractProxy}{NotficationHandle}
+    \umlinherit[]{RemoteNotificationHandle}{NotficationHandle}
+    \umlunicompo[mult2=1, anchor2=-100, anchor1=125]{AbstractProxy}{Data}
+    \umluniassoc[mult1=1, attr2=ServerProxy|1, anchor1=-150]{AbstractServer}{ServerSideProxy}
+    \umlinherit[]{ConcreteClient}{AbstractClient}
+    \umlunicompo[geometry=|-, attr2=ServerData|1, pos2=1.8]{AbstractServer}{Data}
+    \umlinherit[]{LocalNotificationHandle}{NotficationHandle}
+    \umlinherit[]{ConcreteServer}{AbstractServer}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Proxy}}
+\label{distrProxyClassDiag}
+\end{figure}

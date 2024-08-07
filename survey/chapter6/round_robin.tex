@@ -16,3 +16,41 @@
 و زمان مؤثر هر وظیفه کاهش یابد. مکانیزم‌های اشتراک‌گذاری داده‌ها ابتدایی هستند
 و پیاده‌سازی مدل‌های پیچیده را دشوار می‌کنند.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[y=4]{Timer}{
+        }{
+            }
+            \umlclass[]{Scheluer}{
+            \lr{}
+        }{
+            \lr{switchTask()}
+            }
+            \umlclass[x=4.5, y=4]{TaskControlBlock}{
+                \lr{startAddr}\\
+                \lr{RentryPoint}
+            }{          
+    }
+            \umlclass[x=10, y=4]{Stack}{
+                \lr{baseAddr}\\
+                \lr{Top}
+            }{  
+    }       
+    \umlclass[x=9]{AbstractThread}{}{  
+        \lr{run()}      
+}       
+\umlclass[x=8, y=-3]{ConcreteThread}{}{      
+}       
+    \umlassoc[attr1=1|timeScliceSource, mult2=1]{Timer}{Scheluer}
+    \umlunicompo[mult1=1, attr2=TCB|*, geometry=-|, anchor1=30, pos2=1.7]{Scheluer}{TaskControlBlock}
+    \umlunicompo[mult1=1, mult2=1, anchor1=47]{AbstractThread}{Stack}
+    \umlassoc[mult1=1, attr2=ordered|*]{Scheluer}{AbstractThread}
+    \umlassoc[mult1=1, mult2=1]{TaskControlBlock}{Stack}
+    \umlinherit[]{ConcreteThread}{AbstractThread}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Round Robin}}
+\label{archConRoundRobClassDiag}
+\end{figure}

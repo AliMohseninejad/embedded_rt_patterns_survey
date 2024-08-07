@@ -21,3 +21,46 @@
 سیستم‌عامل‌های بی‌درنگ تجاری پشتیبانی شود
 و اغلب نیاز به افزونه‌های سفارشی برای پیاده‌سازی دارد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+    \umlclass[]{Scheluer}{
+            \lr{systemPriorityCeiling}
+        }{
+            \lr{creatThread()}\\
+            \lr{destroyThread()}\\
+            \lr{blockThread()}\\
+            \lr{unblockThread()}\\
+            \lr{return()}
+            }
+            \umlclass[x=4.5, y=4]{TaskControlBlock}{
+                \lr{NominalPriority}\\
+                \lr{CurentPriority}\\
+                \lr{StartAddr}\\
+                \lr{EntryPoint}
+            }{
+    }       
+\umlclass[x=3.4, y=-2.5]{mutex}{}{  
+}       
+\umlclass[x=7.5, y=-2.5]{SharedResource}{
+\lr{proirityCelling} 
+}
+{}       
+    \umlclass[x=11, y=1]{AbstractThread}{ 
+    }{  
+        \lr{run()}      
+}                  
+\umlclass[x=11, y=-5]{ConcreteThread}{}{      
+}       
+    \umlunicompo[mult1=1, mult2=*, geometry=-|, anchor1=30, pos2=1.7]{Scheluer}{TaskControlBlock}
+    \umlassoc[mult1=1, mult2=*]{Scheluer}{AbstractThread}
+    \umlinherit[]{ConcreteThread}{AbstractThread}
+    \umlassoc[mult1=1, mult2=1]{mutex}{SharedResource}
+    \umluniassoc[mult1=*, mult2=1]{mutex}{Scheluer}
+    \umluniassoc[mult1=1..*, mult2=*, pos1=0.33]{AbstractThread}{SharedResource}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Priority Ceiling}}
+\label{resourcePriorCeilClassDiag}
+\end{figure}

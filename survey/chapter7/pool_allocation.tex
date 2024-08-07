@@ -16,3 +16,33 @@
 با این حال، نیاز است که تعداد بهینه اشیاء مختلف در
 زمان طراحی تعیین شود و این الگو اجازه رشد دینامیک تقاضای سیستم را نمی‌دهد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=-1, y=-5]{Client}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[x=3]{GenericPoolManager}{
+            \lr{initialize}\\
+            \lr{allocate}\\
+            \lr{release}
+        }{  
+            }
+            \umlclass[x=7, y=-5]{ResoucePoolManager}{}{
+                }
+                \umlclass[x=10]{pooledClass}{
+                    \lr{}
+                }{
+                    \lr{}
+        }    
+    \umluniassoc[mult1=*, attr2=ObjectServer|1, pos2=0.7]{Client}{ResoucePoolManager}
+    \umlimport[mult2=bind]{ResoucePoolManager}{GenericPoolManager}
+    \umlunicompo[mult1=1, attr2=freeObject|*, pos2=0.7]{GenericPoolManager}{pooledClass}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Pool Allocation}}
+\label{memPoolAllocClassDiag}
+\end{figure}

@@ -17,3 +17,32 @@
 (این الگو همان \nameref{scheduleRendezvousSec} است
 که در \cite{ref1} گفته‌شده.)
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[y=4]{SynchPolicy}{
+        }{
+            }
+            \umlclass[]{Rendezvous}{
+            \lr{}
+        }{
+            \lr{reset()}\\
+            \lr{register()}\\
+            \lr{release()}
+            }
+            \umlclass[y=-4]{Callback}{
+            }{
+    }
+            \umlclass[x=5]{ClientThread}{  
+            }{ 
+            \lr{notify()}       
+    }       
+    \umlunicompo[mult1=1, mult2=1]{Rendezvous}{SynchPolicy}
+    \umluniassoc[mult1=1, mult2=*]{Rendezvous}{Callback}
+    \umluniassoc[mult1=2..*, mult2=1]{ClientThread}{Rendezvous}
+    }  
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Rendezvous}}
+\label{archConRendezClassDiag}
+\end{figure}

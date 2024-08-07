@@ -11,3 +11,34 @@
 سیستم‌های عامل بی‌درنگ قابل قبول است که اغلب از
 تخصیص بلوک‌های با اندازه ثابت به صورت داخلی پشتیبانی می‌کنند.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{Client}{
+            \lr{}
+        }{
+            \lr{}
+            }
+            \umlclass[y=-3]{ObjectFactory}{
+        }{
+            }
+            \umlclass[y=-6]{HeapManager}{}{
+                }
+                \umlclass[x=5, y=-6]{SizedHeap}{
+                }{
+        } 
+        \begin{umlpackage}[x=12, y=-6]{MemorySegment}
+        \umlclass[y=-1]{FreeBlockList}{}{
+            }   
+    \end{umlpackage}   
+    \umluniassoc[mult1=*, mult2=*]{Client}{ObjectFactory}
+    \umluniassoc[mult1=*, mult2=1]{ObjectFactory}{HeapManager}
+    \umluniassoc[mult1=1, mult2=*]{HeapManager}{SizedHeap}
+    \umluniassoc[mult1=1, attr2=*|freeList, anchor1=-20]{SizedHeap}{FreeBlockList}
+    \umlunicompo[mult1=1, mult2=1, anchor1=10, anchor2=155]{SizedHeap}{MemorySegment}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Fixed Sized Buffer}}
+\label{memFixSizeBufClassDiag}
+\end{figure}

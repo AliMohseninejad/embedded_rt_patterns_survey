@@ -12,3 +12,34 @@
 مشکل تکه‌تکه شدن حافظه را حل نمی‌کند که می‌توان
 آن را با استفاده از \nameref{memGarbCompatorSec} مدیریت کرد.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+            \umlclass[x=-1, y=-12]{Collectable}{
+            \lr{isLive}
+            }{
+                }   
+                \umlclass[x=-3, y=-15]{Client}{     
+                }{
+                    } 
+        \begin{umlpackage}[x=5, y=-10]{MemoryManagmentSystem}
+                \umlclass[y=-1]{MemoryBlock}{}{
+                        }   
+                \umlclass[y=-5]{FreeBlockList}{}{
+                            } 
+                \umlclass[y=-8]{GarbegeCollector}{
+                }{
+                                } 
+                \end{umlpackage}
+                \umlinherit[]{Client}{Collectable}
+                \umlassoc[mult1=*, attr2=*|usedBlock]{Client}{MemoryBlock}
+                \umluniassoc[mult1=1, mult2=1]{GarbegeCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbegeCollector}{Client}
+                \umluniaggreg[mult1=1, attr2=*|freeBlock]{FreeBlockList}{MemoryBlock}
+                \umluniassoc[mult1=*, attr2=*|derivedObject, angle1=130, angle2=170]{Client}{Client}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Garbage Collection}}
+\label{memGarbCollectionClassDiag}
+\end{figure}

@@ -21,3 +21,118 @@
 این الگو برای معماری‌های متقارن که سرورها در پردازنده‌های کمتر قابل
 دسترس قرار دارند، مؤثر است.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=2, y=-1]{UnitType}{}{
+            }
+            \umlclass[x=5, y=2]{DataBus}{
+                }{
+            \lr{update()}\\
+            \lr{getDataID()}\\
+            \lr{getDataName()}
+            }
+            \umlclass[x=5, y=-6]{AbstractData}{
+                \lr{DataID}\\
+                \lr{DataName}\\
+                \lr{InfoType}\\
+                \lr{DataUnits}
+            }{     
+            }
+                \umlclass[x=7, y=-1]{IDType}{}{
+        }    
+        \umlclass[x=9, y=-3]{DataType}{}{
+        }   
+        \umlclass[y=-11]{AbstractClient}{}{
+        }    
+        \umlclass[y=-14]{ConcreteClient}{}{
+        }
+        \umlclass[x=10, y=-11]{AbstractSubject}{}{
+        }   
+        \umlclass[x=10, y=-14]{ConcreteSubject}{}{
+            } 
+        \umlclass[x=5, y=-10]{ConcreteData}{
+            \lr{value}
+        }{        
+                }
+    \umluniassoc[mult1=*, geometry=|-, anchor1=140, pos1=0.1]{AbstractClient}{DataBus}
+    \umluniaggreg[mult1=1, mult2=1, geometry=|-, pos2=1.7]{AbstractClient}{AbstractData}
+    \umlinherit[]{ConcreteData}{AbstractData}
+    \umldep[]{AbstractData}{UnitType}
+    \umldep[]{AbstractData}{IDType}
+    \umldep[anchor1=28]{AbstractData}{DataType}
+    \umlunicompo[mult2=*]{DataBus}{AbstractData}
+    \umluniassoc[mult1=*, geometry=|-, anchor1=30]{AbstractSubject}{DataBus}
+    \umlunicompo[mult1=1, mult2=1, geometry=|-, pos2=1.7]{AbstractSubject}{AbstractData}
+    \umlinherit[]{ConcreteClient}{AbstractClient}
+    \umlinherit[]{ConcreteSubject}{AbstractSubject}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Data Bus (Pull Version)}}
+\label{distrDataBusPullClassDiag}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[x=2, y=-1]{UnitType}{}{
+            }
+            \umlclass[x=5, y=2]{DataBus}{
+                }{
+            \lr{update()}\\
+            \lr{subscribe()}\\
+            \lr{subscribe()}\\
+            \lr{unSubscribe()}\\
+            \lr{unSubscribe()}
+            }
+            \umlclass[x=5, y=-6]{AbstractData}{
+            }{
+                \lr{DataID()}\\
+                \lr{DataName()}\\
+                \lr{InfoType()}\\
+                \lr{DataUnits()}
+            }
+                \umlclass[x=7, y=-1]{IDType}{}{
+        }    
+        \umlclass[x=9, y=-3]{DataType}{}{
+        } 
+        \umlclass[x=10.5, y=6]{NotficationHandle}{}{
+            } 
+            \umlclass[x=5, y=6]{NotficationHandler}{}{
+                } 
+        \umlclass[x=-1, y=-4]{Listener}{
+            \lr{DataID}
+        }{
+            }   
+        \umlclass[y=-11]{AbstractClient}{}{
+        }    
+        \umlclass[y=-14]{ConcreteClient}{}{
+        }
+        \umlclass[x=10, y=-11]{AbstractSubject}{}{
+        }   
+        \umlclass[x=10, y=-14]{ConcreteSubject}{}{
+            } 
+        \umlclass[x=5, y=-10]{ConcreteData}{
+            \lr{value} 
+        }{
+        }
+    \umluniassoc[mult1=*,mult2=1, geometry=|-, anchor1=140, pos1=0.1, pos2=1.9]{AbstractClient}{DataBus}
+    \umluniaggreg[mult1=1, mult2=1, geometry=|-, pos2=1.7]{AbstractClient}{AbstractData}
+    \umlinherit[]{ConcreteData}{AbstractData}
+    \umldep[]{AbstractData}{UnitType}
+    \umldep[]{AbstractData}{IDType}
+    \umldep[anchor1=28]{AbstractData}{DataType}
+    \umlunicompo[mult2=*]{DataBus}{AbstractData}
+    \umluniassoc[mult1=*,mult2=1, geometry=|-, anchor1=30, pos2=1.9]{AbstractSubject}{DataBus}
+    \umlunicompo[mult1=1, mult2=1, geometry=|-, pos2=1.7]{AbstractSubject}{AbstractData}
+    \umlinherit[]{ConcreteClient}{AbstractClient}
+    \umlinherit[]{ConcreteSubject}{AbstractSubject}
+    \umlunicompo[mult2=*]{NotficationHandler}{NotficationHandle}
+    \umlunicompo[mult2=*]{DataBus}{NotficationHandler}
+    \umluniassoc[mult2=1, geometry=|-, anchor1=140, pos1=0.1]{AbstractClient}{Listener}    
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Data Bus (Push Version)}}
+\label{distrDataBusPushClassDiag}
+\end{figure}

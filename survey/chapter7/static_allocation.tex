@@ -13,3 +13,36 @@
 و ممکن است به حافظه بیشتری نسبت به تخصیص پویا نیاز داشته باشد.
 مزیت اصلی آن جلوگیری از تکه‌تکه شدن حافظه و بهبود پیش‌بینی‌پذیری است.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \umlclass[]{AllocationPlan}{
+        }{
+            }
+            \umlclass[y=-4]{SystemicObject}{
+            \lr{initialize}\\
+            \lr{begin}
+        }{
+            \lr{run()}
+            }
+            \umlclass[x=7, y=-4]{PartObject}{
+        }{
+            }
+            \umlclass[x=7, y=-8]{CompositObject}{
+                \lr{initialize}
+            }{
+    }    
+    \umlclass[x=12, y=-6]{PrimitiveObject}{
+}{
+}    
+    \umlunicompo[mult1=1, mult2=0.1 , pos1=0.2]{SystemicObject}{AllocationPlan}
+    \umluniassoc[attr1=1|whole, attr2=part|*]{SystemicObject}{PartObject}
+    \umlinherit[]{CompositObject}{PartObject}
+    \umlinherit[]{PrimitiveObject}{PartObject}
+    \umlunicompo[attr1=1|whole, attr2=part|*, anchor1=140, anchor2=-147]{CompositObject}{PartObject}
+    }
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Static Allocation}}
+\label{memStaticAllocClassDiag}
+\end{figure}

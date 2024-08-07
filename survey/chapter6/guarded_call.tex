@@ -15,3 +15,29 @@
 (این الگو همان \nameref{scheduleGuardedCallSec} است که در
 \cite{ref1} گفته‌شده.)
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \begin{umlpackage}[x=-3]{ClientThread}
+            \umlclass[]{Client}{}{
+                    } 
+        \end{umlpackage}
+        \begin{umlpackage}[x=6]{ServerThread}
+                \umlclass[x=1]{Server}{}{
+                }   
+                \umlclass[x=-3]{BoundaryObject}{}{
+                } 
+                \umlclass[x=1, y=-3]{SharedResource}{}{
+                } 
+                \umlclass[x=-3, y=-3]{Mutex}{}{} 
+                \end{umlpackage}
+                \umluniassoc[mult1=*, mult2=*]{Client}{BoundaryObject}
+                \umlassoc[mult1=1, mult2=*]{BoundaryObject}{Server}
+                \umlassoc[mult1=*, mult2=*]{Server}{SharedResource}
+                \umlassoc[mult1=1, mult2=1]{Mutex}{SharedResource}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Guarded Call}}
+\label{archConGuardCallClassDiag}
+\end{figure}

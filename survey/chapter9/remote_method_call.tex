@@ -17,3 +17,44 @@
 انتقال مناسب، مانند \lr{TCP} به جای \lr{UDP} غیرقابل‌اعتماد،
 می‌تواند نگرانی‌های مربوط به به‌موقع‌بودن و قابلیت اطمینان را برطرف کند.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \begin{umlpackage}[x=-2, y=-11.5]{ClientProcessor}
+            \umlclass[y=-1]{Formatter}{}{
+                }   
+                \umlclass[y=-4]{ClientStub}{
+                    \lr{portNumber}
+                }{
+                    } 
+                \umlclass[y=-8]{Client}{
+                    \lr{serviceNumber}
+                }{
+                    } 
+        \end{umlpackage}
+        \begin{umlpackage}[x=5, y=-10]{ServerProcessor}
+                \umlclass[x=1, y=-1]{PortMapper}{}{
+                        }   
+                \umlclass[x=-1, y=-5]{Formatter1}{}{
+                            } 
+                \umlclass[x=-1, y=-8]{ServerStub}{
+                    \lr{portNumber}
+                }{
+                                } 
+                \umlclass[x=1, y=-12]{Server}{
+                    \lr{serviceNumber}
+                }{} 
+                \end{umlpackage}
+                \umluniassoc[]{ClientStub}{Formatter}
+                \umlassoc[mult1=*, mult2=1]{ClientStub}{Client}
+                \umluniassoc[mult1=1, mult2=1, anchor1=20]{ClientStub}{PortMapper}
+                \umluniassoc[mult1=*, mult2=1]{ClientStub}{ServerStub}
+                \umluniassoc[]{ServerStub}{Formatter1}
+                \umlassoc[mult1=1, mult2=*, pos2=0.7]{Server}{ServerStub}
+                \umluniassoc[mult1=*, mult2=1, anchor1=60, anchor2=-60, pos2=0.9, pos1=0.1]{Server}{PortMapper}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Remote Method Call}}
+\label{distrRemMethodCallClassDiag}
+\end{figure}

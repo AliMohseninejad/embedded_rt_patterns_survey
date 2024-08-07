@@ -26,3 +26,50 @@
 کم قابل دسترسی هستند، موثر است، اگرچه ممکن است تحویل پیام‌ها
 به موقع نباشد زیرا کلاینت‌ها حافظه مشترک را برای به‌روزرسانی‌ها بررسی می‌کنند.
 \end{RTL}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}
+    \lr{
+        \begin{umlpackage}[x=-2, y=-11.5]{Processor}
+            \umlclass[y=-1]{DataClient}{}{
+                }   
+                \umlclass[x=1, y=-4]{DataSource}{
+                }{
+                    } 
+                \umlclass[x=1, y=-8]{Sender}{
+                }{
+                    } 
+                    \umlclass[y=-12]{Reciver}{     
+                }{
+                    } 
+        \end{umlpackage}
+        \begin{umlpackage}[x=8, y=-12]{SharedMemory}
+                \umlclass[x=1, y=-0.4]{GlobalData}{}{
+                    \lr{readWrite()}
+                        } 
+                \umlclass[x=-2, y=-3]{HardwarSemaphor}{}{
+                        }   
+                \umlclass[x=2, y=-12]{MessageQueue}{
+                    \lr{insert}\\
+                    \lr{Remove}
+                }{     
+                            } 
+                \umlclass[x=2, y=-15]{Message}{
+                }{
+                                } 
+                \end{umlpackage}
+                \umluniassoc[mult1=1, mult2=*, anchor1=130, anchor2=-133, pos2=0.9, pos1=0.1]{Reciver}{DataClient}
+                \umluniassoc[mult1=*, mult2=1]{DataSource}{Sender}
+                \umluniassoc[mult1=1, mult2=1, anchor1=-27]{Reciver}{MessageQueue}
+                \umluniassoc[mult1=*, mult2=1, geometry=-|, pos2=1.9]{Reciver}{HardwarSemaphor}
+                \umlunicompo[mult1=*, mult2=1]{MessageQueue}{Message}
+                \umluniassoc[mult1=1, mult2=1, geometry=|-, anchor1=50, anchor2=-15, pos2=1.9, pos1=0.1]{MessageQueue}{HardwarSemaphor}
+                \umluniassoc[mult1=*, mult2=*, geometry=-|, anchor1=-20, pos2=1.8, pos1=0.1]{Sender}{MessageQueue}
+                \umluniassoc[mult1=*, mult2=1, geometry=-|, anchor2=-150, pos2=1.8]{Sender}{HardwarSemaphor}
+                \umluniassoc[mult1=1, mult2=1, geometry=|-]{GlobalData}{HardwarSemaphor}
+                \umluniassoc[mult1=*, mult2=1, pos1=0.1, pos2=0.9]{DataClient}{GlobalData}
+}
+\end{tikzpicture}
+\caption{دیاگرام کلاس \lr{Shared Memory}}
+\label{distrSharedMemClassDiag}
+\end{figure}
