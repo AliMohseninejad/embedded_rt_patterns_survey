@@ -28,14 +28,14 @@
                         }   
                 \umlclass[y=-5]{FreeBlockList}{}{
                             } 
-                \umlclass[y=-8]{GarbegeCollector}{
+                \umlclass[y=-8]{GarbageCollector}{
                 }{
                                 } 
                 \end{umlpackage}
                 \umlinherit[]{Client}{Collectable}
                 \umlassoc[mult1=*, attr2=*|usedBlock]{Client}{MemoryBlock}
-                \umluniassoc[mult1=1, mult2=1]{GarbegeCollector}{FreeBlockList}
-                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbegeCollector}{Client}
+                \umluniassoc[mult1=1, mult2=1]{GarbageCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbageCollector}{Client}
                 \umluniaggreg[mult1=1, attr2=*|freeBlock]{FreeBlockList}{MemoryBlock}
                 \umluniassoc[mult1=*, attr2=*|derivedObject, angle1=130, angle2=170]{Client}{Client}
 }

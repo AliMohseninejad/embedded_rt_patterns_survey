@@ -30,7 +30,7 @@
                         }   
                 \umlclass[y=-5]{FreeBlockList}{}{
                             } 
-                \umlclass[y=-8]{GarbegeCollector}{
+                \umlclass[y=-8]{GarbageCollector}{
                 }{
                                 }
                 \umlclass[x=-6, y=-1]{BufferedPtr}{}{
@@ -38,9 +38,9 @@
                 \end{umlpackage}
                 \umluniassoc[mult1=*, mult2=*, geometry=|-]{Client}{BufferedPtr}
                 \umluniassoc[mult1=*, mult2=0..1]{BufferedPtr}{MemoryBlock}
-                \umluniassoc[mult1=1, attr2=FromList|1, anchor1=140, anchor2=-146]{GarbegeCollector}{FreeBlockList}
-                \umluniassoc[mult1=1, attr2=1|ToList, anchor1=45, anchor2=-40]{GarbegeCollector}{FreeBlockList}
-                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbegeCollector}{Client}
+                \umluniassoc[mult1=1, attr2=FromList|1, anchor1=140, anchor2=-146]{GarbageCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=1|ToList, anchor1=45, anchor2=-40]{GarbageCollector}{FreeBlockList}
+                \umluniassoc[mult1=1, attr2=*|rootObject, geometry=-|, pos2=1.8]{GarbageCollector}{Client}
                 \umluniaggreg[mult1=1, mult2=*]{FreeBlockList}{MemoryBlock}
                 \umluniassoc[mult1=*, attr2=*|derivedObject, angle1=130, angle2=170]{Client}{Client}
 }

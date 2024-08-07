@@ -1,4 +1,214 @@
-\subsubsection{الگوهای طراحی}
+\subsection{الگوهای طراحی}
 \begin{RTL}
-
+در این بخش، الگوها را به دسته‌های زیر تقسیم‌بندی می‌کنیم. این
+تقسیم‌بندی تاحدی از \cite{ref1} و \cite{ref4}
+برگرفته شده و تاحدی ساخته این گزارش است.
 \end{RTL}
+\begin{enumerate}
+    \item \lr{Hardware Patterns}
+    \item \lr{Concurrent Scheduling Patterns}
+    \item \lr{Concurrent Resource Sharing Patterns}
+    \item \lr{State Machine Patterns}
+    \item \lr{Safety with Redundancy Patterns}
+    \item \lr{Safety without Redundancy Patterns}
+    \item \lr{Memory Patterns}
+\end{enumerate}
+
+\subsubsection{\lr{Hardware Patterns}}
+\begin{itemize}
+\item \nameref{HWProxySec}: % HW % Structural
+این الگو با تعریف یک \lr{Remote Proxy} \cite{ref3}
+برای سخت‌افزار، کدهای کلاینت را از سخت‌افزار ایزوله می‌کند.
+این الگو از نوع ساختاری است.
+\item \nameref{HWAdapterSec}: % HW % Struc
+این الگو دقیقا همان الگوی \lr{Adapter} در \cite{ref3}
+است. این الگو از نوع ساختاری است.
+\item \nameref{HWMediatorSec}: % HW % Behav
+این الگو دقیقا مشابه الگوی \lr{Mediator} در \cite{ref3}
+است. این الگو از نوع رفتاری است.
+\item \nameref{HWObserverSec}: % HW % Behav
+این الگو دقیقا همان الگوی \lr{Observer} در \cite{ref3}
+است. این الگو از نوع رفتاری است.
+\item \nameref{HWDebouncingSec}: % HW % Behav
+این الگو با برای استفاده از رابط‌های سخت‌افزاری که دچار مشکل
+\lr{Bouncing} هستند، بسیار مفید است و به دلیل ایجاد
+رفتار جدید در ساختار خود و استفاده از یک سیستم تعلیق، جزو دسته
+الگوهای رفتاری \cite{ref3} قرار می‌گیرد.
+\item \nameref{HWInterruptSec}: % HW % Behav
+این الگو در \cite{ref1} و \cite{ref4} در دو فرم
+الگوی طراحی و معماری بیان شده‌است. همانطور که می‌دانیم، وقفه‌ها در
+سیستم‌های نهفته بی‌درنگ، بخش مهمی از سیستم به شمار می‌روند
+که توسط سخت‌افزار در اختیار نرم‌افزار قرار می‌گیرند. الگوی \lr{Interrupt}
+تاحدی شبیه الگوی \lr{Observer} عمل می‌کند و کمک می‌کند که رویدادها
+را به صورت \lr{Non-Blocking} دریافت کنیم. المان‌های
+حاضر در این الگو در سطح کلاس‌ها هستند و نه کامپوننت‌ها، لذا این الگو باید در
+دسته الگوهای طراحی قرار بگیرد نه الگوهای معماری. لازم به ذکر است
+که این الگو یک الگوی رفتاری است و فرایند اصلی اجرای برنامه را تحت تاثیر
+قرار می‌دهد.
+\item \nameref{HWPollingSec}: % HW % Behav
+این الگو هدفی مشابه هدف \nameref{HWInterruptSec}
+دنبال می‌کند و تفاوت آن استفاده از ساختار \lr{Blocking}
+است. این الگو نیز از دسته الگوهای رفتاری است.
+\end{itemize}
+
+\subsubsection{\lr{Concurrent Scheduling Patterns}}
+\begin{itemize}
+\item \nameref{scheduleCyclicExecSec}: % ConcurrentSched % Behav
+این الگو فلوی اجرای \lr{Thread}ها را کنترل می‌کند
+و وظیفه برنامه‌ریزی آن‌ها را انجام می‌دهد. این الگو از دسته الگوهای رفتاری
+است. این الگو در \cite{ref4} به عنوان یک الگوی
+معماری نیز معرفی شده‌است که درست نیست. زیرا که این الگو
+از اجزای ریزدانه ساخته‌شده و هدف کوچکی از یک سیستم نهفته بی‌درنگ
+را محقق می‌سازد.
+\item \nameref{scheduleStaticPriSec}: % ConcurrSched % Behav
+این الگو مشابه \nameref{scheduleCyclicExecSec}
+برنامه ریزی \lr{Thread}ها را انجام می‌دهد؛ البته به شکلی متفاوت.
+این الگو نیز از نوع الگوهای رفتاری است. این الگو نیز در \cite{ref4}
+به عنوان یک الگوی معماری آمده‌است که به دلیل مشابه با
+\nameref{scheduleCyclicExecSec} باید در دسته
+الگوهای طراحی قرار بگیرد.
+\item \nameref{archConDynPriorSec}: % ConcurrSched % Behav
+این الگو هدفی مشابه \nameref{scheduleStaticPriSec}
+دنبال می‌کند و مانند آن، یک الگوی طراحی است.
+\item \nameref{scheduleCriticalRegSec}: % ConcurSched % ConcurSR % Behav
+این الگو با هدف ایجاد اطمینان از انجام یک \lr{Thread} خاص
+و عدم ایجاد مزاحمت برای آن ایجاد شده. این الگو از دسته الگوهای رفتاری است.
+\item \nameref{archConRoundRobSec}: % ConcurSched % Behav
+هدف این الگو مانند هدف \nameref{scheduleCyclicExecSec}
+است و به دلایل مشابهی، یک الگوی طراحی است. این الگو از نوع الگوهای
+رفتاری است.
+\end{itemize}
+
+\subsubsection{\lr{Concurrent Resource Sharing Patterns}}
+\begin{itemize}
+\item \nameref{scheduleGuardedCallSec}: % ConcurSR % Behav
+این الگو با هدف محافظت از یک منبع خاص در مقابل \lr{Race} بین
+\lr{Thread}ها محافظت می‌کند. این الگو با اضافه‌کردن یک \lr{Semaphore}
+به ساختار، این کار را انجام می‌دهد و یک الگوی رفتاری است.
+این الگو در \cite{ref4} به عنوان یک الگوی معماری بیان‌شده‌است
+و می‌گوید که اگر یک کلاینت بخواهد یک منبع از سرور را فراخوانی کند،
+این الگوی معماری مورد استفاده قرار می‌گیرد. در صورتی که این حرف دقیق
+نیست. چیزی که در شکل \ref{archConGuardCallClassDiag}
+می‌بینیم، در اصل ترکیب \nameref{distrRemMethodCallSec}
+و \nameref{scheduleGuardedCallSec} است.
+که الگوی اول یک الگوی معماری و الگوی دوم (همین الگو) یک الگوی
+طراحی است.
+\item \nameref{scheduleQueuingSec}: % ConcurSR % Behav
+این الگو با ایجاد یک سیستم مبتنی بر \lr{FIFO}، یک
+سیستم امن برای انتقال داده بین \lr{Thread}ها ایجاد
+می‌کند. این الگو نیز به مدیریت یک منبع مشترک بین \lr{Thread}ها
+مشغول است و یک الگوی رفتاری است.
+\item \nameref{scheduleRendezvousSec}: % ConcurSR % Behav
+این الگو نیز با ایجاد یک کلاس مجزا برای سنکرون‌سازی \lr{Thread}ها،
+دسترسی به منابع را برای آن‌ها به صورت امن فراهم می‌کند. این الگو نیز
+یک الگوی رفتاری است زیرا که کلاس \lr{Rendezvous} فرایندهای
+سنکرون‌سازی را پیاده‌سازی کرده‌است. این الگو در \cite{ref4} به عنوان
+یک الگوی معماری نیز بیان شده‌است. اما این الگو به اندازه کافی
+کلی نیست که بخواهد در دسته الگوهای معماری باشد. همچنین ساختار
+این الگو بر اساس کلاس‌ها است و نه کامپوننت‌ها و زیرسیستم‌ها.
+\item \nameref{scheduleSimLockingSec}: % ConcurSR % Behav
+این الگو نیز با معرفی کلاس‌های جدید، فرایند دسترسی امن به منابع مشترک
+را به نحو دیگری پیاده‌سازی می‌کند و یک الگوی رفتاری است.
+\item \nameref{scheduleOrderedSec}: % ConcurSR % Behav
+هدف این الگو نیز مانند \nameref{scheduleSimLockingSec}
+است و یک الگوی رفتاری است.
+\item \nameref{resourcePriorInheritSec}: % ConcurSR % Behav
+این الگو هدفی مانند \nameref{scheduleStaticPriSec}
+دارد و یک الگوی رفتاری است.
+\item \nameref{resourceHighestLockerSec}: % ConcurSR % Behav
+این الگو هدفی مانند \nameref{resourcePriorInheritSec}
+دارد و یک الگوی رفتاری است.
+\item \nameref{resourcePriorCeilSec}: % ConcurSR % Behav
+این الگو هدفی مانند \nameref{resourcePriorInheritSec}
+دارد و یک الگوی رفتاری است.
+\end{itemize}
+
+
+\subsubsection{\lr{State Machine Patterns}}
+\begin{itemize}
+\item \nameref{smSingleEvRecSec}: % SM % Behav
+در این الگو، تنها یک شیء دریافت‌کننده رویدادها از بیرون است و آن‌ها را
+به ماشین حالت پاس می‌دهد. این الگو به صورت یک الگوی رفتاری است.
+\item \nameref{smMultipleEvRecSec}: % SM % Behav
+این الگو با استفاده از چندین دریافت‌کننده رویداد، وظیفه را بین آن‌ها پخش
+می‌کند. این الگو نیز یک الگوی رفتاری است.
+\item \nameref{smStateTableSec}: % SM % Creat
+این الگو با ساخت یک جدول بزرگ از تمامی حالت‌ها، ماشین حالت را می‌سازد.
+همانطور که در \cite{ref4} گفته شده، این الگو از دسته الگوهای آفرینشی است.
+\item \nameref{smStateSec}: % SM % Behav
+این الگو همان الگوی \lr{State} است که در \cite{ref3} آمده
+است. این الگو یک الگوی رفتاری است.
+\item \nameref{smDecomAndStateSec}: % SM % Behav
+این الگو برای پیاده‌سازی حالت‌های \lr{AND} طراحی شده‌است.
+این الگو یک الگوی رفتاری است.
+\end{itemize}
+
+
+\subsubsection{\lr{Safety with Redundancy Patterns}}
+\begin{itemize}
+    \item \nameref{safeOnesCompSec}: % SafeRed % Behav
+    این الگو با هدف امنیت، داده‌ها را یک بار دیگر به صورت قرینه ذخیره
+    می‌کند. این الگو با ایجاد تکرار باعث امنیت بیشتر می‌شود و یک
+    الگوی رفتاری است.
+    \item \nameref{safeCRCSec}: % SafeRed % Behav
+    این الگو با اضافه کردن اضافات مربوط به تابع \lr{CRC}،
+    امنیت را بهبود می‌بخشد. این الگو از نوع رفتاری است.
+    \item \nameref{safeChannelSec}: % SafeRed % Behav
+    این الگو در بین الگوهای معماری نیز بیان شد. اما ساختار ریزدانه این
+    الگو می‌تواند به عنوان یک الگوی طراحی مطرح شود. این الگو مشابه
+    \lr{Chain of Responsibility} \cite{ref3}
+    است و از نوع الگوهای رفتاری است. این الگو با اضافه کردن تکرار
+    در کانال‌ها می‌تواند به امنیت کمک کند.
+    \item \nameref{safeProtSingleChSec}: % SafeRed % Behav
+    این الگو با اضافه‌کردن چند چک روی یک کانال، وضعیت امنیت را بهبود
+    می‌بخشد. این الگو در \cite{ref4} به عنوان یک الگوی معماری نیز بیان‌شده
+    اما مسئله این است که اگر به ساختار آن معماری دقت کنیم، می‌بینیم که در اصل
+    آن همان معماری \nameref{archChannelSec} است که الگوی
+    طراحی \lr{Protected Single Channel} روی آن اعمال
+    شده است و نباید آن را به عنوان یک الگوی معماری مجزا دید.
+    \item \nameref{safeDualChannelSec}: % SafeRed % Behav
+    این الگو نیز بر پایه \nameref{safeChannelSec} ساخته‌شده و تفاوت آن در
+    استفاده از دو کانال است که یعنی تکرار را افزایش داده است.
+\end{itemize}
+
+\subsubsection{\lr{Safety without Redundancy Patterns}}
+\begin{itemize}
+\item \nameref{safeSmartDataSec}: % SafeNoRed % Behav
+این الگو با ایجاد شرط‌هایی روی توابع دریافت یک داده،
+امنیت دسترسی خواندن و نوشتن آن را ارتقا می‌دهد.
+این الگو از نوع الگوهای رفتاری است.
+\item \nameref{memSmartPointerSec}: % Mem & SafeNoRed% Struct
+این الگو با ساخت \lr{Smart Pointer}ها، از مشکلات زیادی
+که ممکن است با پوینترها اتفاق بیافتد جلوگیری می‌کند.
+این الگو به شکل یک \lr{Wrapper} حول اشاره‌گر قرار
+می‌گیرد و یک الگوی ساختاری است. با توجه به توضیحات
+داده‌شده، این الگو هم از دسته الگوهای
+امنیت است و هم از دسته الگوهای مدیریت حافظه.
+\end{itemize}
+
+\subsubsection{\lr{Memory Patterns}}
+\begin{itemize}
+\item \nameref{memSmartPointerSec}: % Mem & SafeNoRed% Struct
+این الگو با ساخت \lr{Smart Pointer}ها، از مشکلات زیادی
+که ممکن است با پوینترها اتفاق بیافتد جلوگیری می‌کند.
+این الگو به شکل یک \lr{Wrapper} حول اشاره‌گر قرار
+می‌گیرد و یک الگوی ساختاری است. با توجه به توضیحات
+داده‌شده، این الگو هم از دسته الگوهای
+امنیت است و هم از دسته الگوهای مدیریت حافظه.
+\item \nameref{memStaticAllocSec}: % Mem % Creat
+این الگو یکی از الگوهای مدیریت حافظه است و نحوه تخصیص منابع
+را تنظیم می‌کند. این الگو از دسته الگوهای آفرینشی است و
+این حافظه‌ها را تخصیص می‌دهد.
+\item \nameref{memPoolAllocSec}: % Mem % Creat
+این الگو نیز هدفی مشابه \nameref{memStaticAllocSec}
+دارد و یک الگوی آفرینشی است.
+\item \nameref{memFixSizeBufSec}: % Mem % Creat
+این الگو نیز هدفی مشابه \nameref{memStaticAllocSec}
+دارد و یک الگوی آفرینشی است.
+\item \nameref{memGarbCollectionSec}: % Mem % Behav
+این الگو با اضافه‌کردن کلاس \lr{GarbageCollector}
+فرایند آزادسازی حافظه را مدیریت می‌کند و یک الگوی رفتاری است.
+\item \nameref{memGarbCompatorSec}: % Mem % Behav
+این الگو هدفی مشابه \nameref{memGarbCollectionSec}
+دارد و مانند آن یک الگوی رفتاری است.
+\end{itemize}

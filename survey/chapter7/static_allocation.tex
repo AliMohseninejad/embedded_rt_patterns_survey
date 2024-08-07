@@ -20,18 +20,15 @@
         \umlclass[]{AllocationPlan}{
         }{
             }
-            \umlclass[y=-4]{SystemicObject}{
-            \lr{initialize}\\
-            \lr{begin}
-        }{
-            \lr{run()}
+            \umlclass[y=-4]{SystemicObject}{}{
+                \lr{initialize()}\\
+                \lr{begin()}
             }
             \umlclass[x=7, y=-4]{PartObject}{
         }{
             }
-            \umlclass[x=7, y=-8]{CompositObject}{
-                \lr{initialize}
-            }{
+            \umlclass[x=7, y=-8]{CompositObject}{}{
+                \lr{initialize()}
     }    
     \umlclass[x=12, y=-6]{PrimitiveObject}{
 }{
