@@ -1,0 +1,139 @@
+\subsection{الگوهای معماری}
+\begin{RTL}
+با توجه به الگوهایی که به عنوان الگوی معماری در ادامه می‌آوریم،
+الگوها را به ۶ دسته تقسیم می‌کنیم.
+\end{RTL}
+\begin{enumerate}
+    \item \lr{From Mud to Structure}
+    \item \lr{Distributed Systems}
+    \item \lr{Interactive Systems}
+    \item \lr{Adaptable Systems}
+    \item \lr{Safe Channel-based Systems}
+    \item \lr{Safe Systems without Channel}
+\end{enumerate}
+\begin{RTL}
+همانطور که در بالا دیده می‌شود، چهار دسته اول تقسیم‌بندی را براساس
+\cite{ref6} آورده و دو دسته بعدی را خودمان معرفی کردیم.
+\end{RTL}
+\subsubsection{\lr{From Mud to Structure}}
+\begin{itemize}
+\item \nameref{archLayerSec}: % from mud to structure
+با توجه به تعریف ارائه‌شده، این الگو با بیان ساختار یک سیستم و نحوه
+ارتباط زیربخش‌های آن با هم، در دسته الگوهای معماری قرار می‌گیرد.
+لازم به ذکر است که این الگو همان الگوی \lr{Layers} است
+که \lr{Buschmann} و غیره \cite{ref6} گفته‌اند.
+\item \nameref{arch5LayerSec}: % from mud to structure
+این الگو نیز یکی از حالت‌های خاص \nameref{archLayerSec}
+است و در همین دسته قرار می‌گیرد.
+\item \nameref{archChannelSec}: % from mud to structure
+این الگو در \cite{ref4} به عنوان یک الگوی معماری و
+در \cite{ref1} به عنوان یک الگوی طراحی معرفی شده‌است.
+طبق تعریف، این الگو با استفاده از یک زنجیره از اشیا می‌تواند توابعی را روی
+داده، از ابتدا (\lr{Source}) تا انتها (\lr{Sink}) انجام دهد.
+این رفتار بسیار شبیه الگوی \lr{Pipes and Filters} در \cite{ref6}
+است. در این الگو اگر کانال یک عنصر درشت‌دانه باشد و جزوی از یک زیربخش
+قابل تکرار در سیستم باشد، می‌توان این الگو را در دسته الگوهای معماری قرار داد.
+\item \nameref{archRecContainSec}: % from mud to structure
+این الگو با تعریف یک زیربخش سیستمی به عنوان عنصر اصلی، مي‌گوید که
+زیربخش‌ها همگی با صورت تودرتو می‌توانند درون یکدیگر قرار بگیرند و سیستم را
+تشکیل دهند. این الگو به دلیل درشت‌دانه بودن ساختار اجزای تشکیل‌دهنده،
+در این دسته قرار می‌گیرد.
+\item \nameref{archHierContSec}: % from mud to structure
+این الگو نیز شباهت زیادی با \nameref{archRecContainSec} داشته
+و در این دسته قرار می‌گیرد.
+\end{itemize}
+
+\subsubsection{\lr{Distributed Systems}}
+\begin{itemize}
+\item \nameref{distrSharedMemSec}: % distributed systems
+این الگو با به اشتراک‌گذاری یک واحد حافظه بین چندین پردازنده،
+امکان استفاده پردازنده‌ها از یک حافظه مشترک را فراهم می‌سازد.
+اجزای تشکیل‌دهنده این الگو، پردازنده‌ها و حافظه‌ها هستند که اجزای
+درشت‌دانه سیستم‌های نهفته به ‌شمار می‌روند. از این رو این الگو در
+دسته الگوهای معماری قرار می‌گیرد.
+\item \nameref{distrRemMethodCallSec} % distributed
+این الگو با فراهم‌کردن یک پروتکل ارتباطی بین کلاینت و سرور،
+در یک ساختار توزیع‌شده اجازه فراخوانی توابع سرور توسط کلاینت را
+فراهم می‌سازد. از این رو این الگو در دسته الگوهای معماری قرار می‌گیرد.
+% \item \nameref{distrObserverSec}:
+\item \nameref{distrDataBusSec}: % distributed
+این الگو با ایجاد یک گذرگاه داده، اجازه می‌دهد زیربخش‌های یک
+سیستم با استفاده از آن، با یکدیگر ارتباط داشته باشند
+و بتوانند روی این گذرگاه، داده‌های مورد نیاز را ارسال
+و دریافت کنند. این الگو در سیستم‌های نهفته کاربردهای زیادی دارد
+و معمولا بین سخت‌افزارهای مجزا استفاده می‌شود.
+این الگو نیز جزو دسته الگوهای معماری است.
+% \item \nameref{distrProxySec}
+\item \nameref{distrBrokerSec}: % distributed
+این الگو کاملا مشابه الگوی \lr{Broker} در \cite{ref6} است
+و در دسته الگوهای معماری قرار می‌گیرد.
+\end{itemize}
+
+\subsubsection{\lr{Interactive Systems}}
+\begin{itemize}
+\item \nameref{ZalewskiFramework}:
+این الگو با ایجاد یک ساختار معماری با در نظر داشتن رابط کاربری و
+ارتباط بخش‌های مختلف سیستم و سیستم‌های مختلف با هم، یک معماری
+قابل استفاده برای کاربران ایجاد می‌کند که استفاده از سیستم نهفته را ممکن
+می‌سازد. 
+\end{itemize}
+
+\subsubsection{\lr{Adaptable Systems}}
+\begin{itemize}
+\item \nameref{archMicrokernelSec}: % adaptable systems
+این الگو نیز همان الگوی \lr{Microkernel} است
+که در \cite{ref6} گفته‌شده.
+\item \nameref{archVirtMachineSec}: % adaptable systems
+این الگو یک سیستم کامل را بر روی یک ماشین مجازی پیاده‌سازی‌کرده و
+با هدف تطبیق‌پذیری بالا طراحی شده‌است. این الگو نحوه استقرار یک سیستم
+نرم‌افزاری بر روی پلتفرم‌های مختلف را بررسی می‌کند و مشخصا یک الگوی معماری است.
+\item \nameref{archCompBasedSec}: % adaptable systems
+این الگو به ایجاد یک سیستم نرم‌افزاری مبتنی بر اجزای قابل استفاده مجدد تکیه دارد
+و یک الگوی معماری است.
+% \item \nameref{archROOMSec}:
+\end{itemize}
+
+\subsubsection{\lr{Safe Channel-based Systems}}
+\begin{itemize}
+\item \nameref{archSafeHomoRedundancySec}: % SafetyCh
+این الگو بر پایه الگوی \nameref{archChannelSec} ساخته‌شده
+و صرفا برای منظور امنیت، یک کانال اضافی نیز تعریف می‌کند.
+\item \nameref{archSafeTripModRedunSec}: % SafetyCh
+مشابها در این الگو نیز از کانال به تعداد سه مرتبه استفاده شده‌است.
+\item \nameref{archSafeHeteroRedundancySec}: % SafetyCh
+این الگو بر پایه الگوی \nameref{archChannelSec} ساخته‌شده
+و صرفا برای منظور امنیت، یک کانال اضافی از نوعی دیگر نیز تعریف می‌کند.
+\item \nameref{archSafeMonActSec}: % SafetyCh
+این الگو نیز با استفاده از کانال‌ها یک ساختار معماری امن ارائه می‌کند.
+\item \nameref{archSafeSanityChkSec}: % SafetyCh
+این الگو نیز با استفاده از کانال‌ها باعث ایجاد یک ساختار امن می‌شود.
+\item \nameref{archSafeWatchDogSec}: % SafetyCh
+این الگو نیز با استفاده از کانال‌ها باعث ایجاد یک ساختار امن می‌شود.
+\item \nameref{archSafeSafetyExecSec}: % SafetyCh
+این الگو نیز با استفاده از کانال‌ها باعث ایجاد یک ساختار امن می‌شود.
+\item \nameref{ArmoushHWMOutNSec}: % SafetyCh
+این الگو نسخه تعمیم‌یافته
+\nameref{archSafeTripModRedunSec} است.
+\item \nameref{ArmoushMix3LvlSafeMonSec} % SafetyCh
+این الگو با استفاده از تکرار نرم‌افزار به علاوه استفاده از کانال‌ها، امنیت را
+فراهم می‌کند.
+% \item \nameref{archSafeProtectSingleChSec}: % SafetyCh
+% این الگو بر روی \nameref{archChannelSec} ساخته‌شده
+% و صرفا تعدادی چک بر روی داده‌ها اضافه‌کرده است.
+\end{itemize}
+
+\subsubsection{\lr{Safe Systems without Channel}}
+\begin{itemize}
+\item \nameref{ArmoushSWNVerProgSec} % Safety no Ch
+این الگو با ایجاد تکرار در نرم‌افزار، به امنیت و قابلیت اطمینان کمک می‌کند.
+با توجه به این که در این الگو، اجزا در سطح زیرسیستم هستند،
+می‌توان این الگو را در دسته الگوهای معماری درنظر گرفت.
+\item \nameref{ArmoushSWRecoverBlockSec} % Safety no Ch
+مشابه الگوی قبلی با تکرار نرم‌افزار امنیت را فراهم می‌کند.
+\item \nameref{ArmoushSWAccVoteSec} % Safety no Ch
+مشابه الگوی قبلی با تکرار نرم‌افزار امنیت را فراهم می‌کند.
+\item \nameref{ArmoushSWNSelfChkProgSec} % Safety no Ch
+مشابه الگوی قبلی با تکرار نرم‌افزار امنیت را فراهم می‌کند.
+\item \nameref{ArmoushSWRecoverBlockBackVotSec} % Safety no Ch
+مشابه الگوی قبلی با تکرار نرم‌افزار امنیت را فراهم می‌کند.
+\end{itemize}
